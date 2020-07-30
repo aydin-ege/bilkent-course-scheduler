@@ -62,7 +62,7 @@ with open('course_codes.json', 'r') as fp:
 
 course_prefixes = ['ACC', 'ADA', 'AMER', 'ARCH', 'BF', 'BIM', 'BTE', 'CHEM', 'CI', 'CINT', 'COMD', 'CS', 'CTE', 'CTIS', 'ECON', 'EDEB', 'EEE', 'EEPS', 'ELIT', 'ELS', 'EMBA', 'ENG', 'ETE', 'FA', 'FRP', 'GE', 'GRA', 'HART', 'HCIV', 'HIST', 'HUM', 'IAED', 'IE', 'IELTS', 'IR', 'LAUD', 'LAW', 'LNG', 'MAN', 'MATH', 'MBA', 'MBG', 'ME', 'MIAPP', 'MSC', 'MSN', 'MTE', 'MUS', 'NSC', 'PE', 'PHIL', 'PHYS', 'POLS', 'PREP', 'PSYC', 'SFL', 'SOC', 'TE', 'TEFL', 'THEA', 'THM', 'THR', 'TOEFL', 'TRIN', 'TURK']
 
-session_state = SessionState.get(old_wanted_courses=[], wanted_courses=[], course_code="")
+session_state = SessionState.get(old_wanted_courses=[], wanted_courses=[], course_code="", schedule_no=0)
 
 st.title('My first app')
 course_code = st.selectbox("Select the course code", course_prefixes)
@@ -84,12 +84,11 @@ for sch in get_valid_schedules(wanted_courses):
     dfs.append(pd.DataFrame(schedule_into_table(sch)))
 
 st.write("Here's our first attempt at using data to create a table:")
-for df in dfs:
-    st.write("Table R:")
-    st.write(df)
 
+st.write("Combination " + str(session_state.schedule_no % len(dfs) + 1) + " of "+ str(len(dfs)))
+st.table(dfs[session_state.schedule_no % len(dfs)])
 
-
-
-
-
+if st.button('Next'):
+    session_state.schedule_no += 1
+if st.button('Prev'):
+    session_state.schedule_no -= 1
