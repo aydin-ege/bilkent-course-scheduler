@@ -32,15 +32,34 @@ def get_valid_schedules(wanted_courses):
     valid_combinations = []
     for combination in all_combinations:
         if check_time_collision(combination):
-            valid_combinations.append(combination)
+            new_combination = []
+            for i in range(len(combination)):
+                new_combination.append([])
+                new_combination[i].append(wanted_courses[i] + "-" + combination[i][0])
+                new_combination[i].append(combination[i][1].copy())
+            valid_combinations.append(new_combination)
     return valid_combinations
+
+
+def schedule_into_table(schedule):
+    table = {"Mon": [""]*9, "Tue": [""]*9, "Wed": [""]*9, "Thu": [""]*9, "Fri": [""]*9}
+    for course in schedule:
+        course_name = course[0]
+        course_schedule = course[1]
+        for day in course_schedule:
+            for i in range(9):
+                if i in course_schedule[day]:
+                    table[day][i] = course_name
+    return table
 
 
 with open('course_data.json', 'r') as fp:
     courses = json.load(fp)
 
 wanted_courses = ["EEE 313", "EEE 351", "MBG 110", "EEE 321"]
-get_valid_schedules(wanted_courses)
+for sch in get_valid_schedules(wanted_courses):
+    schedule_into_table(sch)
+    
 
 
 
