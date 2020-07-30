@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import json
 from itertools import product
-
+import SessionState
 
 def check_time_collision(course_combo):
     schedule = {}
@@ -42,7 +42,7 @@ def get_valid_schedules(wanted_courses):
 
 
 def schedule_into_table(schedule):
-    table = {"Mon": [""]*9, "Tue": [""]*9, "Wed": [""]*9, "Thu": [""]*9, "Fri": [""]*9}
+    table = {"Mon": ["\t"]*9, "Tue": ["\t"]*9, "Wed": ["\t"]*9, "Thu": ["\t"]*9, "Fri": ["\t"]*9}
     for course in schedule:
         course_name = course[0]
         course_schedule = course[1]
@@ -53,13 +53,41 @@ def schedule_into_table(schedule):
     return table
 
 
+courses = {}
+course_codes = {}
 with open('course_data.json', 'r') as fp:
     courses = json.load(fp)
+with open('course_codes.json', 'r') as fp:
+    course_codes = json.load(fp)
 
-wanted_courses = ["EEE 313", "EEE 351", "MBG 110", "EEE 321"]
+course_prefixes = ['ACC', 'ADA', 'AMER', 'ARCH', 'BF', 'BIM', 'BTE', 'CHEM', 'CI', 'CINT', 'COMD', 'CS', 'CTE', 'CTIS', 'ECON', 'EDEB', 'EEE', 'EEPS', 'ELIT', 'ELS', 'EMBA', 'ENG', 'ETE', 'FA', 'FRP', 'GE', 'GRA', 'HART', 'HCIV', 'HIST', 'HUM', 'IAED', 'IE', 'IELTS', 'IR', 'LAUD', 'LAW', 'LNG', 'MAN', 'MATH', 'MBA', 'MBG', 'ME', 'MIAPP', 'MSC', 'MSN', 'MTE', 'MUS', 'NSC', 'PE', 'PHIL', 'PHYS', 'POLS', 'PREP', 'PSYC', 'SFL', 'SOC', 'TE', 'TEFL', 'THEA', 'THM', 'THR', 'TOEFL', 'TRIN', 'TURK']
+
+session_state = SessionState.get(old_wanted_courses=[], wanted_courses=[], course_code="")
+
+st.title('My first app')
+course_code = st.selectbox("Select the course code", course_prefixes)
+
+
+wanted_courses = []
+if session_state.course_code != "" and session_state.course_code != course_code and len(session_state.old_wanted_courses) > 0:
+    session_state.wanted_courses = session_state.old_wanted_courses
+    print("here")
+print(wanted_courses, session_state.wanted_courses, "\n\n")
+extended_course_codes = course_codes[course_code]
+extended_course_codes.extend(session_state.wanted_courses)
+wanted_courses = st.multiselect("Select courses", extended_course_codes, session_state.wanted_courses)
+session_state.old_wanted_courses = wanted_courses
+session_state.course_code = course_code
+
+dfs = []
 for sch in get_valid_schedules(wanted_courses):
-    schedule_into_table(sch)
-    
+    dfs.append(pd.DataFrame(schedule_into_table(sch)))
+
+st.write("Here's our first attempt at using data to create a table:")
+for df in dfs:
+    st.write("Table R:")
+    st.write(df)
+
 
 
 
