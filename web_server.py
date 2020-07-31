@@ -24,8 +24,9 @@ def get_valid_schedules(wanted_courses):
         wanted_course_lists.append([])
         for section in courses[course][1]:
             section_no = section[0]
+            instructor = section[1]
             time = section[3]
-            wanted_course_lists[-1].append([section_no, time])
+            wanted_course_lists[-1].append([section_no, time, instructor])
 
     all_combinations = list(product(*wanted_course_lists))
 
@@ -37,6 +38,7 @@ def get_valid_schedules(wanted_courses):
                 new_combination.append([])
                 new_combination[i].append(wanted_courses[i] + "-" + combination[i][0])
                 new_combination[i].append(combination[i][1].copy())
+                new_combination[i].append(combination[i][2])
             valid_combinations.append(new_combination)
     return valid_combinations
 
@@ -64,31 +66,54 @@ course_prefixes = ['ACC', 'ADA', 'AMER', 'ARCH', 'BF', 'BIM', 'BTE', 'CHEM', 'CI
 
 session_state = SessionState.get(old_wanted_courses=[], wanted_courses=[], course_code="", schedule_no=0)
 
-st.title('My first app')
+st.title('Scheduler')
 course_code = st.selectbox("Select the course code", course_prefixes)
-
 
 wanted_courses = []
 if session_state.course_code != "" and session_state.course_code != course_code and len(session_state.old_wanted_courses) > 0:
     session_state.wanted_courses = session_state.old_wanted_courses
-    print("here")
-print(wanted_courses, session_state.wanted_courses, "\n\n")
+
 extended_course_codes = course_codes[course_code]
 extended_course_codes.extend(session_state.wanted_courses)
 wanted_courses = st.multiselect("Select courses", extended_course_codes, session_state.wanted_courses)
 session_state.old_wanted_courses = wanted_courses
 session_state.course_code = course_code
 
+sections = set()
+instructors = set()
+instructors_with_course_code = {}
+
+
+schs = get_valid_schedules(wanted_courses)
+for sch in schs:
+    for course in sch:
+        sections.add(course[0])
+        course_name, section_no = course[0].split("-")
+        if course_name not in instructors_with_course_code:
+            instructors_with_course_code[course_name] = set()
+        instructors_with_course_code[course_name].add(course[2])
+        instructors.add(course[2])
+
+
+sections = list(sections)
+instructors = list(instructors)
+
+include_instructors = st.sidebar.multiselect("Include instructors", instructors, key="inc_inst")
+exclude_instructors = st.sidebar.multiselect("Exclude instructors", instructors, key="exc_inst")
+include_sections = st.sidebar.multiselect("Include instructors", sections, key="inc_sec")
+exclude_sections = st.sidebar.multiselect("Exclude instructors", sections, key="exc_sec")
+
 dfs = []
-for sch in get_valid_schedules(wanted_courses):
-    dfs.append(pd.DataFrame(schedule_into_table(sch)))
+dfs.append(pd.DataFrame(schedule_into_table(sch)))
+for sch in schs:
+    for course in sch:
+        sections.add(course[0])
+        course_name, section_no = course[0].split("-")
+        if
 
-st.write("Here's our first attempt at using data to create a table:")
-
-st.write("Combination " + str(session_state.schedule_no % len(dfs) + 1) + " of "+ str(len(dfs)))
-st.table(dfs[session_state.schedule_no % len(dfs)])
-
-if st.button('Next'):
-    session_state.schedule_no += 1
-if st.button('Prev'):
-    session_state.schedule_no -= 1
+if len(dfs) > 1:
+    session_state.schedule_no = st.slider("Selected combination", 1, len(dfs)+1, 1, 1) - 1
+    #st.write("Combination " + str(session_state.schedule_no % len(dfs) + 1) + " of "+ str(len(dfs)))
+    st.table(dfs[session_state.schedule_no % len(dfs)])
+else:
+    st.table(dfs[0])
