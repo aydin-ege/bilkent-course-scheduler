@@ -1,8 +1,10 @@
-import streamlit as st
-import pandas as pd
+import copy
 import json
-from itertools import product
 import SessionState
+from itertools import chain, product
+
+import pandas as pd
+import streamlit as st
 
 
 def check_time_collision(course_combo):
@@ -18,7 +20,7 @@ def check_time_collision(course_combo):
     return True
 
 
-# @st.cache
+@st.cache
 def get_valid_schedules(wanted_courses_1):
     global courses
     wanted_course_lists = []
@@ -27,7 +29,7 @@ def get_valid_schedules(wanted_courses_1):
         for section in courses[course_2][1]:
             section_no_2 = section[0]
             instructor = section[1]
-            time = section[3]
+            time = copy.deepcopy(section[3])
             wanted_course_lists[-1].append([section_no_2, time, instructor])
 
     all_combinations = list(product(*wanted_course_lists))
@@ -39,14 +41,14 @@ def get_valid_schedules(wanted_courses_1):
             for i in range(len(combination)):
                 new_combination.append([])
                 new_combination[i].append(wanted_courses[i] + "-" + combination[i][0])
-                new_combination[i].append(combination[i][1].copy())
+                new_combination[i].append(copy.deepcopy(combination[i][1]))
                 new_combination[i].append(combination[i][2])
             valid_combinations.append(new_combination)
     return valid_combinations
 
 
 def schedule_into_table(schedule):
-    table = {"Mon": ["\t"]*9, "Tue": ["\t"]*9, "Wed": ["\t"]*9, "Thu": ["\t"]*9, "Fri": ["\t"]*9}
+    table = {"Mon": ["\t"] * 9, "Tue": ["\t"] * 9, "Wed": ["\t"] * 9, "Thu": ["\t"] * 9, "Fri": ["\t"] * 9}
     for course_1 in schedule:
         course_name_1 = course_1[0]
         course_schedule = course_1[1]
@@ -57,7 +59,7 @@ def schedule_into_table(schedule):
     return table
 
 
-# @st.cache(allow_output_mutation=True)
+@st.cache(allow_output_mutation=True)
 def load_data():
     with open('course_data.json', 'r') as fp:
         courses_4 = json.load(fp)
@@ -79,36 +81,32 @@ wanted_courses = []
 if session_state.course_code != "" and session_state.course_code != course_code and len(session_state.old_wanted_courses) > 0:
     session_state.wanted_courses = session_state.old_wanted_courses
 
-extended_course_codes = course_codes[course_code]
+extended_course_codes = copy.deepcopy(course_codes[course_code])
 extended_course_codes.extend(session_state.wanted_courses)
 wanted_courses = st.multiselect("Select courses", extended_course_codes, session_state.wanted_courses)
 session_state.old_wanted_courses = wanted_courses
 session_state.course_code = course_code
 
-sections = set()
-instructors = set()
 all_instructors = {}
 all_sections = {}
+c = []                                  # DEBUG ONLY
 
 schs = get_valid_schedules(wanted_courses)
 for sch in schs:
     for course in sch:
-        sections.add(course[0])
         course_name, section_no = course[0].split("-")
         if course_name not in all_instructors:
             all_instructors[course_name] = set()
         if course_name not in all_sections:
             all_sections[course_name] = set()
-        all_instructors[course_name].add(course[2])
         all_sections[course_name].add(course[0])
-        if course[2] == "staff":
-            instructors.add(course_name+" staff")
+        if course[2] == "Staff":
+            all_instructors[course_name].add(course_name + " Staff")
         else:
-            instructors.add(course[2])
+            all_instructors[course_name].add(course[2])
 
-
-sections = list(sections)
-instructors = list(instructors)
+sections = list(set(chain.from_iterable((all_sections.values()))))
+instructors = list(set(chain.from_iterable((all_instructors.values()))))
 sections.sort()
 instructors.sort()
 
@@ -116,7 +114,6 @@ include_instructors = st.sidebar.multiselect("Only include following instructors
 exclude_instructors = st.sidebar.multiselect("Exclude following instructors", instructors, key="exc_inst")
 include_sections = st.sidebar.multiselect("Only include following sections for their courses", sections, key="inc_sec")
 exclude_sections = st.sidebar.multiselect("Exclude following sections", sections, key="exc_sec")
-
 
 inverse_instructor_inclusions = [instructor for instructor in instructors if instructor not in include_instructors]
 for course in all_instructors:
@@ -139,7 +136,6 @@ for sch in schs:
             break
     else:
         dfs.append(pd.DataFrame(schedule_into_table(sch)))
-
 
 if len(dfs) > 1:
     session_state.schedule_no = st.slider("Selected combination", 1, len(dfs), 1, 1) - 1
