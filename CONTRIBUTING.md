@@ -21,6 +21,9 @@ ensure nothing is broken.
 There is no specific process, if I can understand what you meant and I have time, I will try to 
 make the required changes.
 
+<br />
+<br />
+
 ---
 ## Code of Conduct
 
