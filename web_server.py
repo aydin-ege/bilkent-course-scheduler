@@ -20,13 +20,12 @@ def check_time_collision(course_combo):
     return True
 
 
-@st.cache
-def get_valid_schedules(wanted_courses_1):
-    global courses
+@st.cache(allow_output_mutation=True)
+def get_valid_schedules(wanted_courses_1, courses_5):
     wanted_course_lists = []
     for course_2 in wanted_courses_1:
         wanted_course_lists.append([])
-        for section in courses[course_2][1]:
+        for section in courses_5[course_2][1]:
             section_no_2 = section[0]
             instructor = section[1]
             time = copy.deepcopy(section[3])
@@ -38,11 +37,11 @@ def get_valid_schedules(wanted_courses_1):
     for combination in all_combinations:
         if check_time_collision(combination):
             new_combination = []
-            for i in range(len(combination)):
+            for i, e in enumerate(combination):
                 new_combination.append([])
-                new_combination[i].append(wanted_courses[i] + "-" + combination[i][0])
-                new_combination[i].append(copy.deepcopy(combination[i][1]))
-                new_combination[i].append(combination[i][2])
+                new_combination[i].append(wanted_courses[i] + "-" + e[0])
+                new_combination[i].append(copy.deepcopy(e[1]))
+                new_combination[i].append(e[2])
             valid_combinations.append(new_combination)
     return valid_combinations
 
@@ -89,12 +88,11 @@ session_state.course_code = course_code
 
 all_instructors = {}
 all_sections = {}
-c = []                                  # DEBUG ONLY
 
-schs = get_valid_schedules(wanted_courses)
+schs = get_valid_schedules(wanted_courses, courses)
 for sch in schs:
     for course in sch:
-        course_name, section_no = course[0].split("-")
+        course_name = course[0].split("-")[0]
         if course_name not in all_instructors:
             all_instructors[course_name] = set()
         if course_name not in all_sections:
@@ -131,7 +129,6 @@ extended_exclude_instructors = set(exclude_instructors).union(inverse_instructor
 dfs = []
 for sch in schs:
     for course in sch:
-        course_name, section_no = course[0].split("-")
         if course[2] in extended_exclude_instructors or course[0] in extended_exclude_sections:
             break
     else:
@@ -140,5 +137,7 @@ for sch in schs:
 if len(dfs) > 1:
     session_state.schedule_no = st.slider("Selected combination", 1, len(dfs), 1, 1) - 1
     st.table(dfs[session_state.schedule_no - 1])
-elif len(dfs):
+elif dfs:
     st.table(dfs[0])
+
+st.write("Is there a bug? Do you have suggestions? Do you want to contribute? Send a report or pull request: https://github.com/scarypercentage/bilkent-course-scheduler Email: egea@ug.bilkent.edu.tr")
