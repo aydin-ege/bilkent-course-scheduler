@@ -12,7 +12,7 @@ You do not need to install this to use it. In a few days, I will upload it to a 
 ```sh
 $ pip install -r requirements.txt
 ```
-Then download [persistent state hack for Streamlit](https://gist.github.com/tvst/036da038ab3e999a64497f42de966a92). I just copied it to Lib folder (because I'm lazy) but if you have a better idea, make the changes and send a pull request.
+Then download [persistent state hack for Streamlit](https://gist.github.com/tvst/036da038ab3e999a64497f42de966a92). I just copied it to Lib folder and imported it (because I'm lazy) but if you have a better idea, make the changes and send a pull request.
 
 To run it, open a terminal window and type
 ```sh
