@@ -1,8 +1,25 @@
 import json
 
-def load_data():
-    with open('course_codes.json', 'r') as fp:
-        course_codes = json.load(fp)
-    return course_codes_1
+
+with open('course_data.json', 'r') as fp:
+    courses = json.load(fp)
+
+from flask import Flask
+app = Flask(__name__)
 
 
+@app.route('/api')
+def api():
+    wanted_courses = ["EEE 102", "EEE 211"]
+    # todo: get wanted courses
+    wanted_course_lists = {}
+    for course in wanted_courses:
+        wanted_course_lists[course] = []
+        for section in courses[course][1]:
+            wanted_course_lists[course].append([section[0], section[1], section[3]])
+
+    return wanted_course_lists
+
+
+if __name__ == '__main__':
+    app.run()
