@@ -2,20 +2,22 @@
 
 Since IEEE scheduler is down, why not create a new one?
 
-Disclaimer: This is a side project and I just slapped together some simple algorithm, an open-source app framework designed specifically for Machine Learning and Data Science and some hacks to make it more interactive so code may be too ugly for your standards.
-
 ---
 ### Installation
 
-You do not need to install this to use it. In a few days, I will upload it to a proper website. If you want to contribute or run it locally, you need to install some libraries.
+You do not need to install this to use it. Soon I will upload it to a proper website. If you want to contribute or run it locally, you need to install some libraries.
 
-```sh
-$ pip install -r requirements.txt
-```
-Then download [persistent state hack for Streamlit](https://gist.github.com/tvst/036da038ab3e999a64497f42de966a92). I just copied it to Lib folder and imported it (because I'm lazy) but if you have a better idea, make the changes and send a pull request.
+First get [NPM](https://www.npmjs.com/get-npm)
+(Optional) Get [VSCode](https://code.visualstudio.com/download) and [Babel JS extension](https://marketplace.visualstudio.com/items?itemName=mgmcdermott.vscode-language-babel)
 
-To run it, open a terminal window and type
-```sh
-$ streamlit run web_server.py
-```
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+You need to install [bootswatch](https://bootswatch.com/help/) as well.
+
+### `npm start`
+
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
