@@ -10,16 +10,13 @@ app = Flask(__name__)
 
 @app.route('/api', methods=['POST'])
 def api():
-
-    print(request.form['data'])
-    return {"1":"a"}
-    if request.method == 'GET':
+    print(request.form)
+    if request.method == 'POST':
         wanted_course_lists = []
-        for course in request.form['data']:
+        for course in request.form['data'].split(","):
             wanted_course_lists.append({})
             for section in courses[course][1]:
                 wanted_course_lists[-1][section[0]] = (section[1], section[3])
-
         return {'data': wanted_course_lists}
 
 

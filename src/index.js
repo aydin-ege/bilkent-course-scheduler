@@ -204,14 +204,14 @@ function product(args) {
 
 async function get_schedules() {
     let all_combos = []
-    alert(JSON.stringify(selected_courses))
+    let str = selected_courses.join(",")
+    console.log(JSON.stringify({"data": str}))
     await fetch('/api', {
         method: 'POST',
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify({'1':'aaa'})
+        body: "data="+str
     })
         .then(res => res.json())
         .then(data => {
