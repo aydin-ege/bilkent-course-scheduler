@@ -1,0 +1,44 @@
+td{
+    width: 10%;
+    height: 10%;
+    align-self: center;
+    background-color: #808080;
+    text-align: center;
+}
+
+th{
+    width: min-content;
+    height: 10%;
+    align-content: inherit;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table{
+    width: 60%;
+    height: 80%;
+    margin-left: 20%;
+}
+
+.cell{
+    width: 10%; 
+    height: 10%;
+    text-align: center;
+    align-content: middle;
+}
+
+.hours{
+    width: 10%;
+    height: 20%;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.day{
+    width: 10%;
+    align-content: center;
+}
+
+.table-dark{
+    text-align: right;
+}
