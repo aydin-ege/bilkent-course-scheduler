@@ -186,7 +186,7 @@ class Game extends React.Component {
                                 {this.renderCell(3, 4)}
                             </tr>
                             <tr>
-                                <th scope="row" class="hours">13:40-14:30</th>
+                                <th scope="row" class="hours">12:40-13:30</th>
                                 {this.renderCell(4, 0)}
                                 {this.renderCell(4, 1)}
                                 {this.renderCell(4, 2)}
@@ -194,7 +194,7 @@ class Game extends React.Component {
                                 {this.renderCell(4, 4)}
                             </tr>
                             <tr>
-                                <th scope="row" class="hours">14:40-15:30</th>
+                                <th scope="row" class="hours">13:40-14:30</th>
                                 {this.renderCell(5, 0)}
                                 {this.renderCell(5, 1)}
                                 {this.renderCell(5, 2)}
@@ -202,7 +202,7 @@ class Game extends React.Component {
                                 {this.renderCell(5, 4)}
                             </tr>
                             <tr>
-                                <th scope="row" class="hours">15:40-16:30</th>
+                                <th scope="row" class="hours">14:40-15:30</th>
                                 {this.renderCell(6, 0)}
                                 {this.renderCell(6, 1)}
                                 {this.renderCell(6, 2)}
@@ -210,12 +210,20 @@ class Game extends React.Component {
                                 {this.renderCell(6, 4)}
                             </tr>
                             <tr>
-                                <th scope="row" class="hours">16:40-17:30</th>
+                                <th scope="row" class="hours">15:40-16:30</th>
                                 {this.renderCell(7, 0)}
                                 {this.renderCell(7, 1)}
                                 {this.renderCell(7, 2)}
                                 {this.renderCell(7, 3)}
                                 {this.renderCell(7, 4)}
+                            </tr>
+                            <tr>
+                                <th scope="row" class="hours">16:40-17:30</th>
+                                {this.renderCell(8, 0)}
+                                {this.renderCell(8, 1)}
+                                {this.renderCell(8, 2)}
+                                {this.renderCell(8, 3)}
+                                {this.renderCell(8, 4)}
                             </tr>
                         </tbody>
                     </table>
