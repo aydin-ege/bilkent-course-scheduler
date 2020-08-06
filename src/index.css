@@ -18,6 +18,7 @@ th{
     width: 60%;
     height: 80%;
     margin-left: 20%;
+    margin-right: 20%;
 }
 
 .cell{
@@ -41,4 +42,10 @@ th{
 
 .table-dark{
     text-align: right;
+}
+
+.select{
+    width: 60%;
+    margin-left: 20%;
+    margin-right: 20%;
 }

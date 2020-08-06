@@ -55,7 +55,7 @@ class CourseSelection extends React.Component {
                         neutral80: 'hsl(0, 0%, 70%)'
                     },
                 })}
-            />
+                className= "select"/>
         );
     }
 
@@ -94,6 +94,7 @@ class CourseSelection extends React.Component {
                         neutral80: 'white'
                     },
                 })}
+                className = "select"
             />
         );
     }
@@ -101,6 +102,7 @@ class CourseSelection extends React.Component {
     render() {
         return (
             <div>
+                <link rel="stylesheet" type="text/css" href="index.css"></link>
                 {this.course_prefix_select()}
                 {this.course_code_select(this.state.prefix_options)}
             </div>
