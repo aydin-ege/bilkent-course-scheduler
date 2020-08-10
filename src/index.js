@@ -6,7 +6,11 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import course_codes from './course_codes.json';
 import 'semantic-ui-css/semantic.min.css';
-import { Icon, Label, Menu, Table, Button, Sidebar } from 'semantic-ui-react'
+import { Icon, Label, Menu, Table, Button, Sidebar, Grid,
+    Header,
+    Image,
+    Segment,
+    SegmentInline} from 'semantic-ui-react'
 
 const course_prefixes = [{ value: 'ACC', label: 'ACC' }, { value: 'ADA', label: 'ADA' }, { value: 'AMER', label: 'AMER' }, { value: 'ARCH', label: 'ARCH' }, { value: 'BF', label: 'BF' }, { value: 'BIM', label: 'BIM' }, { value: 'BTE', label: 'BTE' }, { value: 'CHEM', label: 'CHEM' }, { value: 'CI', label: 'CI' }, { value: 'CINT', label: 'CINT' }, { value: 'COMD', label: 'COMD' }, { value: 'CS', label: 'CS' }, { value: 'CTE', label: 'CTE' }, { value: 'CTIS', label: 'CTIS' }, { value: 'ECON', label: 'ECON' }, { value: 'EDEB', label: 'EDEB' }, { value: 'EEE', label: 'EEE' }, { value: 'EEPS', label: 'EEPS' }, { value: 'ELIT', label: 'ELIT' }, { value: 'ELS', label: 'ELS' }, { value: 'EMBA', label: 'EMBA' }, { value: 'ENG', label: 'ENG' }, { value: 'ETE', label: 'ETE' }, { value: 'FA', label: 'FA' }, { value: 'FRP', label: 'FRP' }, { value: 'GE', label: 'GE' }, { value: 'GRA', label: 'GRA' }, { value: 'HART', label: 'HART' }, { value: 'HCIV', label: 'HCIV' }, { value: 'HIST', label: 'HIST' }, { value: 'HUM', label: 'HUM' }, { value: 'IAED', label: 'IAED' }, { value: 'IE', label: 'IE' }, { value: 'IELTS', label: 'IELTS' }, { value: 'IR', label: 'IR' }, { value: 'LAUD', label: 'LAUD' }, { value: 'LAW', label: 'LAW' }, { value: 'LNG', label: 'LNG' }, { value: 'MAN', label: 'MAN' }, { value: 'MATH', label: 'MATH' }, { value: 'MBA', label: 'MBA' }, { value: 'MBG', label: 'MBG' }, { value: 'ME', label: 'ME' }, { value: 'MIAPP', label: 'MIAPP' }, { value: 'MSC', label: 'MSC' }, { value: 'MSN', label: 'MSN' }, { value: 'MTE', label: 'MTE' }, { value: 'MUS', label: 'MUS' }, { value: 'NSC', label: 'NSC' }, { value: 'PE', label: 'PE' }, { value: 'PHIL', label: 'PHIL' }, { value: 'PHYS', label: 'PHYS' }, { value: 'POLS', label: 'POLS' }, { value: 'PREP', label: 'PREP' }, { value: 'PSYC', label: 'PSYC' }, { value: 'SFL', label: 'SFL' }, { value: 'SOC', label: 'SOC' }, { value: 'TE', label: 'TE' }, { value: 'TEFL', label: 'TEFL' }, { value: 'THEA', label: 'THEA' }, { value: 'THM', label: 'THM' }, { value: 'THR', label: 'THR' }, { value: 'TOEFL', label: 'TOEFL' }, { value: 'TRIN', label: 'TRIN' }, { value: 'TURK', label: 'TURK' }]
 
@@ -54,7 +58,7 @@ class CourseSelection extends React.Component {
                         neutral50: 'black',
                         neutral10: 'hsl(0, 0%, 20%)',
                         neutral40: 'hsl(0, 0%, 90%)',
-                        neutral80: 'black'
+                        neutral80: 'black',
                     },
                 })}
                 className= "select"/>
@@ -255,6 +259,181 @@ class Test extends React.Component {
     }
 }
 
+class MoreOptions extends React.Component{
+
+    
+    constructor(props){
+        super(props);
+        this.state = {visible: false};
+    }
+
+    include_section(){}
+
+    exclude_section(){}
+
+    include_instructor(){}
+
+    exclude_instructor(){}
+
+    show_menu(){
+        this.setState({visible: true});
+    }
+
+    hide_menu(){
+        this.setState({visible: false});
+    }
+
+    render(){
+        return (    
+                <div>    
+                    <link rel="stylesheet" type="text/css" href="index.css"></link>      
+                    <Grid columns={1}>
+                        <Grid.Column>
+                        <Button content='More Options' onClick={() => this.show_menu()}/>   
+                            <Sidebar 
+                                as={Menu}
+                                animation='overlay'
+                                icon='labeled'
+                                inverted
+                                onHide={() => this.hide_menu()}
+                                vertical
+                                visible={this.state.visible}
+                                width='very wide'
+                                direction='left'
+                                
+                            >
+                                <Menu.Item as='a'>
+                                    <div>
+                                        <Label content='Include Section' color='blue'/>
+                                        <Select
+                                            closeMenuOnSelect={false}
+                                            components={animatedComponents}
+                                            defaultValue={[{'value': 'EE102', 'label': 'EE102'}]}
+                                            isMulti
+                                            //options={options}
+                                            //onChange={e => { this.handle_course_codes(e) }}
+                                            theme={theme => ({
+                                                ...theme,
+                                                borderRadius: 8,
+                                                colors: {
+                                                    ...theme.colors,
+                                                    primary: '#737373',
+                                                    primary50: 'hsl(0, 0%, 30%)',
+                                                    dangerLight: '#E68900',
+                                                    danger: 'red',
+                                                    primary25: 'grey',
+                                                    neutral0: 'white',
+                                                    neutral50: 'black',
+                                                    neutral10: 'hsl(0, 0%, 20%)',
+                                                    neutral80: 'white',
+                                                },
+                                            })}
+                                            className = "select"
+                                        />
+                                    </div>
+                                </Menu.Item>
+
+                                <Menu.Item as='a'>
+                                <div>
+                                        <Label content='Exclude Section' color='blue'/>
+                                        <Select
+                                            closeMenuOnSelect={false}
+                                            components={animatedComponents}
+                                            defaultValue={[{'value': 'EE102', 'label': 'EE102'}]}
+                                            isMulti
+                                            //options={options}
+                                            //onChange={e => { this.handle_course_codes(e) }}
+                                            theme={theme => ({
+                                                ...theme,
+                                                borderRadius: 8,
+                                                colors: {
+                                                    ...theme.colors,
+                                                    primary: '#737373',
+                                                    primary50: 'hsl(0, 0%, 30%)',
+                                                    dangerLight: '#E68900',
+                                                    danger: 'red',
+                                                    primary25: 'grey',
+                                                    neutral0: 'white',
+                                                    neutral50: 'black',
+                                                    neutral10: 'hsl(0, 0%, 20%)',
+                                                    neutral80: 'white',
+                                                },
+                                            })}
+                                            className = "select"
+                                        />
+                                    </div>
+                                </Menu.Item>
+
+                                <Menu.Item as='a'>
+                                <div>
+                                        <Label content='Include Instructor' color='blue'/>
+                                        <Select
+                                            closeMenuOnSelect={false}
+                                            components={animatedComponents}
+                                            defaultValue={[{'value': 'EE102', 'label': 'EE102'}]}
+                                            isMulti
+                                            //options={options}
+                                            //onChange={e => { this.handle_course_codes(e) }}
+                                            theme={theme => ({
+                                                ...theme,
+                                                borderRadius: 8,
+                                                colors: {
+                                                    ...theme.colors,
+                                                    primary: '#737373',
+                                                    primary50: 'hsl(0, 0%, 30%)',
+                                                    dangerLight: '#E68900',
+                                                    danger: 'red',
+                                                    primary25: 'grey',
+                                                    neutral0: 'white',
+                                                    neutral50: 'black',
+                                                    neutral10: 'hsl(0, 0%, 20%)',
+                                                    neutral80: 'white',
+                                                },
+                                            })}
+                                            className = "select"
+                                        />
+                                    </div>
+                                </Menu.Item>
+
+                                <Menu.Item as='a'>
+                                <div>
+                                        <Label content='Exclude Instructor' color='blue'/>
+                                        <Select
+                                            closeMenuOnSelect={false}
+                                            components={animatedComponents}
+                                            defaultValue={[{'value': 'EE102', 'label': 'EE102'}]}
+                                            isMulti
+                                            //options={options}
+                                            //onChange={e => { this.handle_course_codes(e) }}
+                                            theme={theme => ({
+                                                ...theme,
+                                                borderRadius: 8,
+                                                colors: {
+                                                    ...theme.colors,
+                                                    primary: '#737373',
+                                                    primary50: 'hsl(0, 0%, 30%)',
+                                                    dangerLight: '#E68900',
+                                                    danger: 'red',
+                                                    primary25: 'grey',
+                                                    neutral0: 'white',
+                                                    neutral50: 'black',
+                                                    neutral10: 'hsl(0, 0%, 20%)',
+                                                    neutral80: 'white',
+                                                },
+                                            })}
+                                            className = "select"
+                                        />
+                                    </div>
+                                </Menu.Item>
+                                <Button content='Cancel' color='red' onClick={() => this.hide_menu()} />
+                            </Sidebar>
+                        </Grid.Column>
+                    </Grid>
+                </div>);    
+        }   
+    }
+
+
 // ========================================
 
 
@@ -264,4 +443,4 @@ ReactDOM.render(
     document.getElementById('root')
 );*/
 
-ReactDOM.render(<div><CourseSelection /><Game /></div>, document.getElementById('root'));
+ReactDOM.render(<div><MoreOptions /><CourseSelection /><Game /></div>, document.getElementById('root'));
