@@ -60,6 +60,7 @@ class CourseSelection extends React.Component {
         if (keys != null)
             keys.forEach(key => arr.push(key['value']))
         selected_courses = arr
+        this.props.onNewCourse()
     }
 
 
@@ -114,22 +115,19 @@ class Cell extends React.Component {
     }
     render() {
         return (
-            <td style={this.state.selected ? { 'background-color': '#737373' } : {}} onClick={() => { this.props.onClick(); this.setState({ selected: !this.state.selected }) }}>{this.props.value}</td>
+            <td style={this.state.selected ? { 'backgroundColor': '#737373' } : {}} onClick={() => { this.setState({ selected: !this.state.selected }); this.props.onClick(this.state.selected) }}>{this.props.value}</td>
         )
     }
 }
 
 
+
+
 class Schedule extends React.Component {
 
-    blockCell(column, row) {
-        //TODO: discard all with that cell full
-    }
-
-    renderCell(column, row) {
-        console.log(this.props.schedule_table)
+    renderCell(row, column) {
         return (
-            <Cell value={this.props.schedule_table[column * 5 + row]} onClick={() => this.blockCell(column, row)}></Cell>
+            <Cell value={this.props.schedule_table[row * 5 + column]} onClick={(selected) => this.props.blockCell(column, row, selected)}></Cell>
         )
     }
 
@@ -137,7 +135,7 @@ class Schedule extends React.Component {
         return (
             <div>
                 <div>
-                    <table class="table">
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th scope="col"></th>
@@ -148,9 +146,9 @@ class Schedule extends React.Component {
                                 <th scope="col">Fri</th>
                             </tr>
                         </thead>
-                        <tbody class="table-dark">
+                        <tbody className="table-dark">
                             <tr>
-                                <th scope="row">8:40-9:30</th>
+                                <th scope="row" className="hours">8:40-9:30</th>
                                 {this.renderCell(0, 0)}
                                 {this.renderCell(0, 1)}
                                 {this.renderCell(0, 2)}
@@ -158,12 +156,76 @@ class Schedule extends React.Component {
                                 {this.renderCell(0, 4)}
                             </tr>
                             <tr>
-                                <th scope="row">9:40-10:30</th>
+                                <th scope="row" className="hours">9:40-10:30</th>
                                 {this.renderCell(1, 0)}
                                 {this.renderCell(1, 1)}
                                 {this.renderCell(1, 2)}
                                 {this.renderCell(1, 3)}
                                 {this.renderCell(1, 4)}
+                            </tr>
+                            <tr>
+                                <th scope="row" className="hours">10:40-11:30</th>
+                                {this.renderCell(2, 0)}
+                                {this.renderCell(2, 1)}
+                                {this.renderCell(2, 2)}
+                                {this.renderCell(2, 3)}
+                                {this.renderCell(2, 4)}
+                            </tr>
+                            <tr>
+                                <th scope="row" className="hours">11:40-12:30</th>
+                                {this.renderCell(3, 0)}
+                                {this.renderCell(3, 1)}
+                                {this.renderCell(3, 2)}
+                                {this.renderCell(3, 3)}
+                                {this.renderCell(3, 4)}
+                            </tr>
+                            <tr>
+                                <th scope="row" className="hours">12:40-13:30</th>
+                                {this.renderCell(4, 0)}
+                                {this.renderCell(4, 1)}
+                                {this.renderCell(4, 2)}
+                                {this.renderCell(4, 3)}
+                                {this.renderCell(4, 4)}
+                            </tr>
+                            <tr>
+                                <th scope="row" className="hours">13:40-14:30</th>
+                                {this.renderCell(5, 0)}
+                                {this.renderCell(5, 1)}
+                                {this.renderCell(5, 2)}
+                                {this.renderCell(5, 3)}
+                                {this.renderCell(5, 4)}
+                            </tr>
+                            <tr>
+                                <th scope="row" className="hours">14:40-15:30</th>
+                                {this.renderCell(6, 0)}
+                                {this.renderCell(6, 1)}
+                                {this.renderCell(6, 2)}
+                                {this.renderCell(6, 3)}
+                                {this.renderCell(6, 4)}
+                            </tr>
+                            <tr>
+                                <th scope="row" className="hours">15:40-16:30</th>
+                                {this.renderCell(7, 0)}
+                                {this.renderCell(7, 1)}
+                                {this.renderCell(7, 2)}
+                                {this.renderCell(7, 3)}
+                                {this.renderCell(7, 4)}
+                            </tr>
+                            <tr>
+                                <th scope="row" className="hours">16:40-17:30</th>
+                                {this.renderCell(8, 0)}
+                                {this.renderCell(8, 1)}
+                                {this.renderCell(8, 2)}
+                                {this.renderCell(8, 3)}
+                                {this.renderCell(8, 4)}
+                            </tr>
+                            <tr>
+                                <th scope="row" className="hours">17:40-18:30</th>
+                                {this.renderCell(9, 0)}
+                                {this.renderCell(9, 1)}
+                                {this.renderCell(9, 2)}
+                                {this.renderCell(9, 3)}
+                                {this.renderCell(9, 4)}
                             </tr>
                         </tbody>
                     </table>
@@ -173,12 +235,17 @@ class Schedule extends React.Component {
     }
 }
 
+let old_selection = []
+
 class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             schedule_table: [],
-            recvd_data: []
+            recvd_data: [],
+            valid_combos: [],
+            blocked_cells: { "Mon": [], "Tue": [], "Wed": [], "Thu": [], "Fri": [] },
+            schedule_no: 0
         };
     }
 
@@ -199,11 +266,11 @@ class Main extends React.Component {
         let schedule = {}
         for (let i = 0; i < course_combo.length; i++) {
             let course_times = this.state.recvd_data[i][course_combo[i]][1]
-            for (var day in course_times) {
+            for (let day in course_times) {
                 if (!(day in schedule)) {
                     schedule[day] = []
                 }
-                if (course_times[day].some(i => schedule[day].includes(i)))
+                if (course_times[day].some(i => schedule[day].includes(i)) || course_times[day].some(i => this.state.blocked_cells[day].includes(i)))
                     return false
                 schedule[day].push(...course_times[day])
             }
@@ -229,43 +296,108 @@ class Main extends React.Component {
             }
         }
         this.setState({ schedule_table: current_schedule })
-        console.log(this.state.schedule_table)
     }
 
 
     async get_schedules() {
-        let all_combos = []
-        let str = selected_courses.join(",")
-        await fetch('/api', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: "data=" + str
-        })
-            .then(res => res.json())
-            .then(data => {
-                this.setState({recvd_data: data.data})
-                let section_list = []
-                data.data.forEach(course => {
-                    section_list.push(Object.keys(course));
+        if (!(selected_courses.length)) {
+            old_selection = selected_courses;
+            this.setState({schedule_no: 0, schedule_table: [], valid_combos: [] })
+            return
+        }
+
+        if (old_selection !== selected_courses) {
+            let str = selected_courses.join(",")
+            await fetch('/api', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: "data=" + str
+            })
+                .then(res => res.json())
+                .then(data => {
+                    this.setState({ recvd_data: data.data })
                 });
-                all_combos = this.product(section_list)
-            });
+            old_selection = selected_courses;
+        }
+        let all_combos = []
+        let section_list = []
+        await this.state.recvd_data.forEach(course => {
+            section_list.push(Object.keys(course));
+        });
+        all_combos = this.product(section_list)
 
         let valid_combos = []
-        all_combos.forEach(combo => {
+        await all_combos.forEach(combo => {
             if (this.check_time_collision(combo))
                 valid_combos.push(combo)
         })
-        this.create_table(valid_combos[0])
+
+        this.setState({ valid_combos: valid_combos })
+        if (valid_combos.length)
+            this.create_table(this.state.valid_combos[0])
+        else
+            this.setState({ schedule_table: [] })
+        this.setState({schedule_no: 0})
     }
+
+    nextSchedule(inc) {
+        let schedule_no = this.state.schedule_no + inc
+        let n = this.state.valid_combos.length
+        schedule_no = ((schedule_no % n) + n) % n
+        if (this.state.valid_combos[schedule_no])
+            this.create_table(this.state.valid_combos[schedule_no])
+        this.setState({schedule_no: schedule_no})
+    }
+
+    blockCell(column, row, selected) {
+        let blocked_cells = this.state.blocked_cells
+        if (!selected)
+            if (column === 0)
+                blocked_cells["Mon"].push(row)
+            else if (column === 1)
+                blocked_cells["Tue"].push(row)
+            else if (column === 2)
+                blocked_cells["Wed"].push(row)
+            else if (column === 3)
+                blocked_cells["Thu"].push(row)
+            else
+                blocked_cells["Fri"].push(row)
+        else {
+            if (column === 0) {
+                if (blocked_cells["Mon"].indexOf(row) > -1)
+                    blocked_cells["Mon"].splice(blocked_cells["Mon"].indexOf(row), 1)
+            }
+            else if (column === 1) {
+                if (blocked_cells["Tue"].indexOf(row) > -1)
+                    blocked_cells["Tue"].splice(blocked_cells["Tue"].indexOf(row), 1)
+            }
+            else if (column === 2) {
+                if (blocked_cells["Wed"].indexOf(row) > -1)
+                    blocked_cells["Wed"].splice(blocked_cells["Wed"].indexOf(row), 1)
+            }
+            else if (column === 3) {
+                if (blocked_cells["Thu"].indexOf(row) > -1)
+                    blocked_cells["Thu"].splice(blocked_cells["Thu"].indexOf(row), 1)
+            }
+            else {
+                if (blocked_cells["Fri"].indexOf(row) > -1)
+                    blocked_cells["Fri"].splice(blocked_cells["Fri"].indexOf(row), 1)
+            }
+        }
+        this.setState({ blocked_cells: blocked_cells })
+    }
+
     render() {
         return (
             <div>
-                <CourseSelection />
-                <Schedule schedule_table={this.state.schedule_table} />
-                <button onClick={() => this.get_schedules()}>Get Schedules</button>
+                <CourseSelection onNewCourse={() => this.get_schedules()} />
+                <br />
+                <center>Combination {this.state.valid_combos.length ? (this.state.schedule_no + 1) : 0} out of {this.state.valid_combos.length ? this.state.valid_combos.length : 0}</center>
+                <Schedule schedule_table={this.state.schedule_table} blockCell={(column, row, selected) => {this.blockCell(column, row, selected); this.get_schedules()}} />
+                <button onClick={() => this.nextSchedule(-1)}>Prev</button>
+                <button onClick={() => this.nextSchedule(1)}>Next</button>
             </div>
         )
     }
