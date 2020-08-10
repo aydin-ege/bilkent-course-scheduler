@@ -409,6 +409,7 @@ class Main extends React.Component {
                 <Schedule schedule_table={this.state.schedule_table} blockCell={(column, row, selected) => {this.blockCell(column, row, selected); this.get_schedules()}} />
                 <button onClick={() => this.nextSchedule(-1)}>Prev</button>
                 <button onClick={() => this.nextSchedule(1)}>Next</button>
+                <MoreOptions />
             </div>
         )
     }
