@@ -49,16 +49,23 @@ td{
     justify-content: center;
 }
 
-.button{
+.nextbutton{
     width: min-content;
     height: min-content;
-    margin-top: 0px;
-    margin-left: 0px;
-    color: maroon;
+    margin-right: 20%;
+    margin-inline-start: auto;
+    margin-top: 2%;
 }
 
-.sidebar
-{
+.prevbutton{
     width: min-content;
-    height: 200px;
+    height: min-content;
+    margin-left: 20%;
+    margin-top: 2%;
+}
+
+
+tr{
+    height: 8%;
+    min-height: 8%;
 }
