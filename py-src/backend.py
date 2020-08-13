@@ -5,7 +5,10 @@ with open('course_data.json', 'r') as fp:
     courses = json.load(fp)
 
 from flask import Flask, request
+from flask_cors import CORS
+
 app = Flask(__name__)
+cors = CORS(app)
 
 
 @app.route('/api', methods=['POST'])
@@ -17,6 +20,7 @@ def api():
             wanted_course_lists.append({})
             for section in courses[course][1]:
                 wanted_course_lists[-1][section[0]] = (section[1], section[3])
+        print({'data': wanted_course_lists})
         return {'data': wanted_course_lists}
 
 

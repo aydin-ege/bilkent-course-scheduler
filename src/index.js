@@ -439,7 +439,7 @@ class Main extends React.Component {
 
         if (old_selection !== selected_courses) {
             let str = selected_courses.join(",")
-            await fetch('/api', {
+            await fetch('http://127.0.0.1:5000/api', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
