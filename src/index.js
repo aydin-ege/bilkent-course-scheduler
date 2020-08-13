@@ -1,17 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import "bootswatch/dist/darkly/bootstrap.min.css";
 import './index.css';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import course_codes from './course_codes.json';
 import 'semantic-ui-css/semantic.min.css';
 import {
-    Icon, Label, Menu, Table, Button, Sidebar, Grid,
-    Header,
-    Image,
-    Segment,
-    SegmentInline
+    Label, Menu, Table, Button, Sidebar, Grid
 } from 'semantic-ui-react'
 
 const course_prefixes = [{ value: 'ACC', label: 'ACC' }, { value: 'ADA', label: 'ADA' }, { value: 'AMER', label: 'AMER' }, { value: 'ARCH', label: 'ARCH' }, { value: 'BF', label: 'BF' }, { value: 'BIM', label: 'BIM' }, { value: 'BTE', label: 'BTE' }, { value: 'CHEM', label: 'CHEM' }, { value: 'CI', label: 'CI' }, { value: 'CINT', label: 'CINT' }, { value: 'COMD', label: 'COMD' }, { value: 'CS', label: 'CS' }, { value: 'CTE', label: 'CTE' }, { value: 'CTIS', label: 'CTIS' }, { value: 'ECON', label: 'ECON' }, { value: 'EDEB', label: 'EDEB' }, { value: 'EEE', label: 'EEE' }, { value: 'EEPS', label: 'EEPS' }, { value: 'ELIT', label: 'ELIT' }, { value: 'ELS', label: 'ELS' }, { value: 'EMBA', label: 'EMBA' }, { value: 'ENG', label: 'ENG' }, { value: 'ETE', label: 'ETE' }, { value: 'FA', label: 'FA' }, { value: 'FRP', label: 'FRP' }, { value: 'GE', label: 'GE' }, { value: 'GRA', label: 'GRA' }, { value: 'HART', label: 'HART' }, { value: 'HCIV', label: 'HCIV' }, { value: 'HIST', label: 'HIST' }, { value: 'HUM', label: 'HUM' }, { value: 'IAED', label: 'IAED' }, { value: 'IE', label: 'IE' }, { value: 'IELTS', label: 'IELTS' }, { value: 'IR', label: 'IR' }, { value: 'LAUD', label: 'LAUD' }, { value: 'LAW', label: 'LAW' }, { value: 'LNG', label: 'LNG' }, { value: 'MAN', label: 'MAN' }, { value: 'MATH', label: 'MATH' }, { value: 'MBA', label: 'MBA' }, { value: 'MBG', label: 'MBG' }, { value: 'ME', label: 'ME' }, { value: 'MIAPP', label: 'MIAPP' }, { value: 'MSC', label: 'MSC' }, { value: 'MSN', label: 'MSN' }, { value: 'MTE', label: 'MTE' }, { value: 'MUS', label: 'MUS' }, { value: 'NSC', label: 'NSC' }, { value: 'PE', label: 'PE' }, { value: 'PHIL', label: 'PHIL' }, { value: 'PHYS', label: 'PHYS' }, { value: 'POLS', label: 'POLS' }, { value: 'PREP', label: 'PREP' }, { value: 'PSYC', label: 'PSYC' }, { value: 'SFL', label: 'SFL' }, { value: 'SOC', label: 'SOC' }, { value: 'TE', label: 'TE' }, { value: 'TEFL', label: 'TEFL' }, { value: 'THEA', label: 'THEA' }, { value: 'THM', label: 'THM' }, { value: 'THR', label: 'THR' }, { value: 'TOEFL', label: 'TOEFL' }, { value: 'TRIN', label: 'TRIN' }, { value: 'TURK', label: 'TURK' }]
@@ -29,12 +24,6 @@ class MoreOptions extends React.Component {
         this.state = { visible: false };
     }
 
-    exclude_section() { }
-
-    include_instructor() { }
-
-    exclude_instructor() { }
-
     render() {
         const section_options = []
         for (let key in this.props.all_sections)
@@ -48,87 +37,91 @@ class MoreOptions extends React.Component {
 
         return (
             <div>
-                <link rel="stylesheet" type="text/css" href="index.css"></link>
-                <Grid columns={1}>
-                    <Grid.Column>
-                        <Button icon = 'angle double right' onClick={() => this.setState({ visible: true })} size='huge' color='blue'/>
-                        <Sidebar
-                            as={Menu}
-                            animation='overlay'
-                            icon='labeled'
-                            inverted
-                            onHide={() => this.setState({ visible: false })}
-                            vertical
-                            visible={this.state.visible}
-                            width='very wide'
-                            direction='left'
+                <div style={{"position": "absolute", "padding": "300px 0"}}>
+                    <Button icon='angle double right' onClick={() => this.setState({ visible: true })} size='huge' color='blue' />
+                </div>
+                <div>
+                    <Grid columns={1}>
+                        <Grid.Column>
+                            <Sidebar
+                                as={Menu}
+                                animation='overlay'
+                                icon='labeled'
+                                inverted
+                                onHide={() => this.setState({ visible: false })}
+                                vertical
+                                visible={this.state.visible}
+                                width='very wide'
+                                direction='left'
 
-                        >
+                            >
 
-                            <Menu.Item as='a'>
-                                <div>
-                                    <Label content='Exclude Section' color='blue' />
-                                    <Select
-                                        closeMenuOnSelect={false}
-                                        components={animatedComponents}
-                                        defaultValue={[]}
-                                        isMulti
-                                        options={section_options}
-                                        onChange={e => { excluded_sections = e; this.props.refresh() }}
-                                        theme={theme => ({
-                                            ...theme,
-                                            borderRadius: 8,
-                                            colors: {
-                                                ...theme.colors,
-                                                primary50: 'hsl(0, 0%, 30%)',
-                                                dangerLight: '#E68900',
-                                                danger: 'black',
-                                                primary25: 'grey',
-                                                neutral0: 'black',
-                                                neutral50: 'hsl(0, 0%, 70%)',
-                                                neutral10: 'hsl(0, 0%, 20%)',
-                                                neutral80: 'white'
-                                            },
-                                        })}
-                                        className="select"
-                                    />
-                                </div>
-                            </Menu.Item>
+                                <Menu.Item as='a'>
+                                    <div>
+                                        <Label content='Exclude Section' color='blue' />
+                                        <Select
+                                            closeMenuOnSelect={false}
+                                            components={animatedComponents}
+                                            defaultValue={[]}
+                                            isMulti
+                                            options={section_options}
+                                            onChange={e => { excluded_sections = e; this.props.refresh() }}
+                                            theme={theme => ({
+                                                ...theme,
+                                                borderRadius: 8,
+                                                colors: {
+                                                    ...theme.colors,
+                                                    primary50: 'hsl(0, 0%, 30%)',
+                                                    dangerLight: '#E68900',
+                                                    danger: 'black',
+                                                    primary25: 'grey',
+                                                    neutral0: 'black',
+                                                    neutral50: 'hsl(0, 0%, 70%)',
+                                                    neutral10: 'hsl(0, 0%, 20%)',
+                                                    neutral80: 'white'
+                                                },
+                                            })}
+                                            className="select"
+                                        />
+                                    </div>
+                                </Menu.Item>
 
-                            <Menu.Item as='a'>
-                                <div>
-                                    <Label content='Exclude Instructor' color='blue' />
-                                    <Select
-                                        closeMenuOnSelect={false}
-                                        components={animatedComponents}
-                                        defaultValue={[]}
-                                        isMulti
-                                        options={instructor_options}
-                                        onChange={e => { excluded_instructors = e; this.props.refresh() }}
-                                        theme={theme => ({
-                                            ...theme,
-                                            borderRadius: 8,
-                                            colors: {
-                                                ...theme.colors,
-                                                primary50: 'hsl(0, 0%, 30%)',
-                                                dangerLight: '#E68900',
-                                                danger: 'black',
-                                                primary25: 'grey',
-                                                neutral0: 'black',
-                                                neutral50: 'hsl(0, 0%, 70%)',
-                                                neutral10: 'hsl(0, 0%, 20%)',
-                                                neutral80: 'white'
-                                            },
-                                        })}
-                                        className="select"
-                                    />
-                                </div>
-                            </Menu.Item>
-                            <Button content='Cancel' color='red' onClick={() => this.setState({ visible: false })} />
-                        </Sidebar>
-                    </Grid.Column>
-                </Grid>
-            </div>);
+                                <Menu.Item as='a'>
+                                    <div>
+                                        <Label content='Exclude Instructor' color='blue' />
+                                        <Select
+                                            closeMenuOnSelect={false}
+                                            components={animatedComponents}
+                                            defaultValue={[]}
+                                            isMulti
+                                            options={instructor_options}
+                                            onChange={e => { excluded_instructors = e; this.props.refresh() }}
+                                            theme={theme => ({
+                                                ...theme,
+                                                borderRadius: 8,
+                                                colors: {
+                                                    ...theme.colors,
+                                                    primary50: 'hsl(0, 0%, 30%)',
+                                                    dangerLight: '#E68900',
+                                                    danger: 'black',
+                                                    primary25: 'grey',
+                                                    neutral0: 'black',
+                                                    neutral50: 'hsl(0, 0%, 70%)',
+                                                    neutral10: 'hsl(0, 0%, 20%)',
+                                                    neutral80: 'white'
+                                                },
+                                            })}
+                                            className="select"
+                                        />
+                                    </div>
+                                </Menu.Item>
+                                <Button content='Cancel' color='red' onClick={() => this.setState({ visible: false })} />
+                            </Sidebar>
+                        </Grid.Column>
+                    </Grid>
+                </div>
+            </div>
+            );
     }
 }
 
@@ -274,7 +267,7 @@ class Schedule extends React.Component {
 
                         <Table.Body>
                             <Table.Row>
-                                <Table.HeaderCell>8:40-9:30</Table.HeaderCell>
+                                <Table.HeaderCell style={{ "height": "40px" }}>8:40-9:30</Table.HeaderCell>
                                 {this.renderCell(0, 0)}
                                 {this.renderCell(0, 1)}
                                 {this.renderCell(0, 2)}
@@ -283,7 +276,7 @@ class Schedule extends React.Component {
                             </Table.Row>
 
                             <Table.Row>
-                                <Table.HeaderCell textAlign='center'>9:40-10:30</Table.HeaderCell>
+                                <Table.HeaderCell style={{ "height": "40px" }} textAlign='center'>9:40-10:30</Table.HeaderCell>
                                 {this.renderCell(1, 0)}
                                 {this.renderCell(1, 1)}
                                 {this.renderCell(1, 2)}
@@ -292,7 +285,7 @@ class Schedule extends React.Component {
                             </Table.Row>
 
                             <Table.Row>
-                                <Table.HeaderCell textAlign='center'>10:40-11:30</Table.HeaderCell>
+                                <Table.HeaderCell style={{ "height": "40px" }} textAlign='center'>10:40-11:30</Table.HeaderCell>
                                 {this.renderCell(2, 0)}
                                 {this.renderCell(2, 1)}
                                 {this.renderCell(2, 2)}
@@ -301,7 +294,7 @@ class Schedule extends React.Component {
                             </Table.Row>
 
                             <Table.Row>
-                                <Table.HeaderCell textAlign='center'>11:40-12:30</Table.HeaderCell>
+                                <Table.HeaderCell style={{ "height": "40px" }} textAlign='center'>11:40-12:30</Table.HeaderCell>
                                 {this.renderCell(3, 0)}
                                 {this.renderCell(3, 1)}
                                 {this.renderCell(3, 2)}
@@ -310,7 +303,7 @@ class Schedule extends React.Component {
                             </Table.Row>
 
                             <Table.Row>
-                                <Table.HeaderCell textAlign='center'>12:40-13:30</Table.HeaderCell>
+                                <Table.HeaderCell style={{ "height": "40px" }} textAlign='center'>12:40-13:30</Table.HeaderCell>
                                 {this.renderCell(4, 0)}
                                 {this.renderCell(4, 1)}
                                 {this.renderCell(4, 2)}
@@ -319,7 +312,7 @@ class Schedule extends React.Component {
                             </Table.Row>
 
                             <Table.Row>
-                                <Table.HeaderCell textAlign='center'>13:40-14:30</Table.HeaderCell>
+                                <Table.HeaderCell style={{ "height": "40px" }} textAlign='center'>13:40-14:30</Table.HeaderCell>
                                 {this.renderCell(5, 0)}
                                 {this.renderCell(5, 1)}
                                 {this.renderCell(5, 2)}
@@ -328,7 +321,7 @@ class Schedule extends React.Component {
                             </Table.Row>
 
                             <Table.Row>
-                                <Table.HeaderCell textAlign='center'>14:40-15:30</Table.HeaderCell>
+                                <Table.HeaderCell style={{ "height": "40px" }} textAlign='center'>14:40-15:30</Table.HeaderCell>
                                 {this.renderCell(6, 0)}
                                 {this.renderCell(6, 1)}
                                 {this.renderCell(6, 2)}
@@ -337,7 +330,7 @@ class Schedule extends React.Component {
                             </Table.Row>
 
                             <Table.Row>
-                                <Table.HeaderCell textAlign='center'>15:40-16:30</Table.HeaderCell>
+                                <Table.HeaderCell style={{ "height": "40px" }} textAlign='center'>15:40-16:30</Table.HeaderCell>
                                 {this.renderCell(7, 0)}
                                 {this.renderCell(7, 1)}
                                 {this.renderCell(7, 2)}
@@ -346,7 +339,7 @@ class Schedule extends React.Component {
                             </Table.Row>
 
                             <Table.Row>
-                                <Table.HeaderCell textAlign='center'>16:40-17:30</Table.HeaderCell>
+                                <Table.HeaderCell style={{ "height": "40px" }} textAlign='center'>16:40-17:30</Table.HeaderCell>
                                 {this.renderCell(8, 0)}
                                 {this.renderCell(8, 1)}
                                 {this.renderCell(8, 2)}
@@ -557,17 +550,18 @@ class Main extends React.Component {
         return (
             <div>
                 <MoreOptions all_sections={this.state.all_sections} all_instructors={this.state.all_instructors} refresh={() => this.get_schedules()} />
+                <h2 style={{ "text-align": "center" }}>Bilkent Scheduler</h2>
                 <CourseSelection onNewCourse={() => this.get_schedules()} />
                 <br />
                 <center>Combination {this.state.valid_combos.length ? (this.state.schedule_no + 1) : 0} out of {this.state.valid_combos.length ? this.state.valid_combos.length : 0}</center>
                 <Schedule schedule_table={this.state.schedule_table} blockCell={(column, row, selected) => { this.blockCell(column, row, selected); this.get_schedules() }} />
-                <div class= 'prevbutton'>  
+                <div class='prevbutton'>
                     <Button onClick={() => this.nextSchedule(-1)} floated='left' color='blue' size='very large'>Prev</Button>
-                </div>  
-                <div class= 'nextbutton'>  
+                </div>
+                <div class='nextbutton'>
                     <Button onClick={() => this.nextSchedule(1)} floated='right' color='blue' size='very large'>Next</Button>
                 </div>
-                
+
             </div>
         )
     }
