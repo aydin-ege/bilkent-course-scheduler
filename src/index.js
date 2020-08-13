@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import course_codes from './course_codes.json';
+// import course_codes from './course_codes.json';
 import 'semantic-ui-css/semantic.min.css';
 import {
     Label, Menu, Table, Button, Sidebar, Grid
@@ -130,14 +130,16 @@ class CourseSelection extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            course_codes: {},
             prefix_options: [],
         };
+        fetch("course_codes.json").then(response => response.json()).then(data => this.setState({course_codes: data}));
     }
 
     refresh_course_codes(value) {
         const options = []
-        for (let i = 0; i < course_codes[value].length; i++) {
-            options.push({ 'value': course_codes[value][i], 'label': course_codes[value][i] })
+        for (let i = 0; i < this.state.course_codes[value].length; i++) {
+            options.push({ 'value': this.state.course_codes[value][i], 'label': this.state.course_codes[value][i] })
         }
         this.setState({ prefix_options: options })
     }
