@@ -51,7 +51,7 @@ class MoreOptions extends React.Component {
                 <link rel="stylesheet" type="text/css" href="index.css"></link>
                 <Grid columns={1}>
                     <Grid.Column>
-                        <Button content='More Options' onClick={() => this.setState({ visible: true })} />
+                        <Button icon = 'angle double right' onClick={() => this.setState({ visible: true })} size='huge' color='blue'/>
                         <Sidebar
                             as={Menu}
                             animation='overlay'
@@ -556,13 +556,18 @@ class Main extends React.Component {
     render() {
         return (
             <div>
+                <MoreOptions all_sections={this.state.all_sections} all_instructors={this.state.all_instructors} refresh={() => this.get_schedules()} />
                 <CourseSelection onNewCourse={() => this.get_schedules()} />
                 <br />
                 <center>Combination {this.state.valid_combos.length ? (this.state.schedule_no + 1) : 0} out of {this.state.valid_combos.length ? this.state.valid_combos.length : 0}</center>
                 <Schedule schedule_table={this.state.schedule_table} blockCell={(column, row, selected) => { this.blockCell(column, row, selected); this.get_schedules() }} />
-                <Button onClick={() => this.nextSchedule(-1)}>Prev</Button>
-                <Button onClick={() => this.nextSchedule(1)}>Next</Button>
-                <MoreOptions all_sections={this.state.all_sections} all_instructors={this.state.all_instructors} refresh={() => this.get_schedules()} />
+                <div class= 'prevbutton'>  
+                    <Button onClick={() => this.nextSchedule(-1)} floated='left' color='blue' size='very large'>Prev</Button>
+                </div>  
+                <div class= 'nextbutton'>  
+                    <Button onClick={() => this.nextSchedule(1)} floated='right' color='blue' size='very large'>Next</Button>
+                </div>
+                
             </div>
         )
     }

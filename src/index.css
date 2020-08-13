@@ -62,3 +62,18 @@ td{
     width: min-content;
     height: 200px;
 }
+
+.nextbutton{
+    width: min-content;
+    height: min-content;
+    margin-right: 20%;
+    margin-inline-start: auto;
+    margin-top: 2%;
+}
+
+.prevbutton{
+    width: min-content;
+    height: min-content;
+    margin-left: 20%;
+    margin-top: 2%;
+}
