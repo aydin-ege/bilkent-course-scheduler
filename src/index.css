@@ -6,7 +6,7 @@ td{
 }
 
 .table{
-    font-size: min(2.7vw, 14px);
+    font-size: min(2vw, 14px);
     height: 80%;
     margin-left: auto !important;
     margin-right: auto !important;
