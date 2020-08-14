@@ -58,6 +58,7 @@ td{
 }
 
 .button{
+    font-size: min(4vw, 20px) !important;
     width: min-content;
     height: min-content;
     margin-top: 0px;

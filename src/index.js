@@ -37,7 +37,7 @@ class MoreOptions extends React.Component {
 
         return (
             <div style={{"padding":"0 0 2%"}}>
-                <div style={{ "position": "absolute", "top": "5%", "left": "1px" }}>
+                <div style={{ "position": "absolute", "top": "4.5%", "padding": "3% 0px 2%" }}>
                     <Button icon='angle double right' onClick={() => this.setState({ visible: true })} size='huge' color='blue' />
                 </div>
                 <div>
@@ -52,7 +52,7 @@ class MoreOptions extends React.Component {
                                 vertical
                                 visible={this.state.visible}
                                 direction='left'
-                                style={{ "width": "100%" }}
+                                style={{ "width": "min(100%, 450px)" }}
                             >
 
                                 <Menu.Item as='a'>
@@ -560,7 +560,7 @@ class Main extends React.Component {
         return (
             <div style={{ "position": "relative", "width": "100%" }}>
                 <MoreOptions all_sections={this.state.all_sections} all_instructors={this.state.all_instructors} refresh={() => this.get_schedules()} />
-                <h1 style={{ "text-align": "center", "padding": "3% 0 2%" }}>Bilkent Scheduler</h1>
+                <h1 style={{ "text-align": "center", "padding": "3% 0 2%", "font-size": "min(8vw, 2.7em)"}}>Bilkent Scheduler</h1>
                 <div style={{ "position": "relative", "left": "50%", "transform": "translateX(-50%)", "width": "100%", "max-width": "800px" }}>
                     <div style={{ "padding": "3% 0 3%" }}>
                         <CourseSelection onNewCourse={() => this.get_schedules()} />
