@@ -243,7 +243,7 @@ class Cell extends React.Component {
     render() {
         return(
             <Table.Cell style={this.state.selected ? { 'backgroundColor': '#737373' } : {}} onClick={() => { this.setState({ selected: !this.state.selected }); this.props.onClick(this.state.selected) }}>
-                {this.props.value?<Label style={{"width":"100%", "font-size":"min(2vw, 14px)", "backgroundColor":course_colors[selected_courses.indexOf(this.props.value.split("-")[0])]}}>{this.props.value}</Label>:""}
+                {this.props.value?<Label style={{"width":"100%", "font-size":this.props.value.length>8?"min(1.6vw, 14px)":"min(2vw, 14px)", "backgroundColor":course_colors[selected_courses.indexOf(this.props.value.split("-")[0])]}}>{this.props.value}</Label>:""}
             </Table.Cell>
         )
     }
