@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 // import course_codes from './course_codes.json';
@@ -8,6 +7,7 @@ import 'semantic-ui-css/semantic.min.css';
 import {
     Label, Menu, Table, Button, Sidebar, Grid
 } from 'semantic-ui-react'
+import './index.css';
 
 const course_prefixes = [{ value: 'ACC', label: 'ACC' }, { value: 'ADA', label: 'ADA' }, { value: 'AMER', label: 'AMER' }, { value: 'ARCH', label: 'ARCH' }, { value: 'BF', label: 'BF' }, { value: 'BIM', label: 'BIM' }, { value: 'BTE', label: 'BTE' }, { value: 'CHEM', label: 'CHEM' }, { value: 'CI', label: 'CI' }, { value: 'CINT', label: 'CINT' }, { value: 'COMD', label: 'COMD' }, { value: 'CS', label: 'CS' }, { value: 'CTE', label: 'CTE' }, { value: 'CTIS', label: 'CTIS' }, { value: 'ECON', label: 'ECON' }, { value: 'EDEB', label: 'EDEB' }, { value: 'EEE', label: 'EEE' }, { value: 'EEPS', label: 'EEPS' }, { value: 'ELIT', label: 'ELIT' }, { value: 'ELS', label: 'ELS' }, { value: 'EMBA', label: 'EMBA' }, { value: 'ENG', label: 'ENG' }, { value: 'ETE', label: 'ETE' }, { value: 'FA', label: 'FA' }, { value: 'FRP', label: 'FRP' }, { value: 'GE', label: 'GE' }, { value: 'GRA', label: 'GRA' }, { value: 'HART', label: 'HART' }, { value: 'HCIV', label: 'HCIV' }, { value: 'HIST', label: 'HIST' }, { value: 'HUM', label: 'HUM' }, { value: 'IAED', label: 'IAED' }, { value: 'IE', label: 'IE' }, { value: 'IELTS', label: 'IELTS' }, { value: 'IR', label: 'IR' }, { value: 'LAUD', label: 'LAUD' }, { value: 'LAW', label: 'LAW' }, { value: 'LNG', label: 'LNG' }, { value: 'MAN', label: 'MAN' }, { value: 'MATH', label: 'MATH' }, { value: 'MBA', label: 'MBA' }, { value: 'MBG', label: 'MBG' }, { value: 'ME', label: 'ME' }, { value: 'MIAPP', label: 'MIAPP' }, { value: 'MSC', label: 'MSC' }, { value: 'MSN', label: 'MSN' }, { value: 'MTE', label: 'MTE' }, { value: 'MUS', label: 'MUS' }, { value: 'NSC', label: 'NSC' }, { value: 'PE', label: 'PE' }, { value: 'PHIL', label: 'PHIL' }, { value: 'PHYS', label: 'PHYS' }, { value: 'POLS', label: 'POLS' }, { value: 'PREP', label: 'PREP' }, { value: 'PSYC', label: 'PSYC' }, { value: 'SFL', label: 'SFL' }, { value: 'SOC', label: 'SOC' }, { value: 'TE', label: 'TE' }, { value: 'TEFL', label: 'TEFL' }, { value: 'THEA', label: 'THEA' }, { value: 'THM', label: 'THM' }, { value: 'THR', label: 'THR' }, { value: 'TOEFL', label: 'TOEFL' }, { value: 'TRIN', label: 'TRIN' }, { value: 'TURK', label: 'TURK' }]
 const animatedComponents = makeAnimated();
@@ -37,7 +37,7 @@ class MoreOptions extends React.Component {
 
         return (
             <div>
-                <div style={{"position": "absolute", "padding": "300px 0"}}>
+                <div style={{ "position": "absolute", "top":"5%", "left":"1px" }}>
                     <Button icon='angle double right' onClick={() => this.setState({ visible: true })} size='huge' color='blue' />
                 </div>
                 <div>
@@ -121,7 +121,7 @@ class MoreOptions extends React.Component {
                     </Grid>
                 </div>
             </div>
-            );
+        );
     }
 }
 
@@ -133,7 +133,7 @@ class CourseSelection extends React.Component {
             course_codes: {},
             prefix_options: [],
         };
-        fetch("course_codes.json").then(response => response.json()).then(data => this.setState({course_codes: data}));
+        fetch("course_codes.json").then(response => response.json()).then(data => this.setState({ course_codes: data }));
     }
 
     refresh_course_codes(value) {
@@ -255,7 +255,7 @@ class Schedule extends React.Component {
             <div>
                 <div class='table'>
                     <link rel="stylesheet" type="text/css" href="index.css"></link>
-                    <Table singleLine unstackable color='grey' textAlign='center'>
+                    <Table singleLine unstackable style={{ "table-layout": "fixed", "width": "800px" }} color='grey' textAlign='center'>
                         <Table.Header>
                             <Table.Row as='tr'>
                                 <Table.HeaderCell ></Table.HeaderCell>
@@ -550,20 +550,25 @@ class Main extends React.Component {
 
     render() {
         return (
-            <div>
-                <MoreOptions all_sections={this.state.all_sections} all_instructors={this.state.all_instructors} refresh={() => this.get_schedules()} />
-                <h2 style={{ "text-align": "center" }}>Bilkent Scheduler</h2>
-                <CourseSelection onNewCourse={() => this.get_schedules()} />
-                <br />
-                <center>Combination {this.state.valid_combos.length ? (this.state.schedule_no + 1) : 0} out of {this.state.valid_combos.length ? this.state.valid_combos.length : 0}</center>
-                <Schedule schedule_table={this.state.schedule_table} blockCell={(column, row, selected) => { this.blockCell(column, row, selected); this.get_schedules() }} />
-                <div class='prevbutton'>
-                    <Button onClick={() => this.nextSchedule(-1)} floated='left' color='blue' size='very large'>Prev</Button>
+            <div style={{"position":"relative", "height":"100%", "width":"100%"}}>
+                <div>
+                    <MoreOptions all_sections={this.state.all_sections} all_instructors={this.state.all_instructors} refresh={() => this.get_schedules()} />
                 </div>
-                <div class='nextbutton'>
-                    <Button onClick={() => this.nextSchedule(1)} floated='right' color='blue' size='very large'>Next</Button>
-                </div>
+                <div style={{ "position": "absolute", "top": "30%", "left": "50%", "transform": "translate(-50%, -30%)" }}>
+                    <div style={{"padding":"3% 0 3%"}}>
+                        <h1 style={{ "text-align": "center", "padding":"2% 0 2%" }}>Bilkent Scheduler</h1>
+                        <CourseSelection onNewCourse={() => this.get_schedules()} />
+                    </div>
+                    <p style={{ "text-align": "center", "font-size": "1.2em" }}>Combination {this.state.valid_combos.length ? (this.state.schedule_no + 1) : 0} out of {this.state.valid_combos.length ? this.state.valid_combos.length : 0}</p>
+                    <Schedule schedule_table={this.state.schedule_table} blockCell={(column, row, selected) => { this.blockCell(column, row, selected); this.get_schedules() }} />
+                    <div class='prevbutton'>
+                        <Button onClick={() => this.nextSchedule(-1)} floated='left' color='blue' size='very large'>Prev</Button>
+                    </div>
+                    <div class='nextbutton'>
+                        <Button onClick={() => this.nextSchedule(1)} floated='right' color='blue' size='very large'>Next</Button>
+                    </div>
 
+                </div>
             </div>
         )
     }
@@ -573,4 +578,11 @@ class Main extends React.Component {
 
 
 ReactDOM.render(<Main />, document.getElementById('root'));
-
+ReactDOM.render((
+    <div>
+    Is there a bug? Do you have suggestions? Do you want to contribute?<br />
+    Send a report or pull request: https://github.com/scarypercentage/bilkent-course-scheduler<br />
+    Powered by React.js&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Theme by Semantic-UI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+    </div>
+), document.getElementById('footer'))

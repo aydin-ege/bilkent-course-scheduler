@@ -6,10 +6,10 @@ td{
 }
 
 .table{
-    width: 60%;
+    /*width: 60%;*/
     height: 80%;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
 
 .cell{
@@ -35,8 +35,12 @@ td{
     text-align: right;
 }
 
+.select input{
+    font-size: 1.45em !important;
+    width: 100% !important;
+}
+
 .select{
-    width: 60%;
     align-self: center;
     margin-left: auto;
     margin-right: auto;
@@ -66,7 +70,6 @@ td{
 .nextbutton{
     width: min-content;
     height: min-content;
-    margin-right: 20%;
     margin-inline-start: auto;
     margin-top: 2%;
 }
@@ -74,6 +77,5 @@ td{
 .prevbutton{
     width: min-content;
     height: min-content;
-    margin-left: 20%;
     margin-top: 2%;
 }
