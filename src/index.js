@@ -14,7 +14,7 @@ const animatedComponents = makeAnimated();
 let selected_courses = []
 let old_selection = []
 let excluded_instructors, excluded_sections = []
-
+const course_colors = []
 
 class MoreOptions extends React.Component {
 
@@ -36,8 +36,8 @@ class MoreOptions extends React.Component {
 
 
         return (
-            <div>
-                <div style={{ "position": "absolute", "top":"5%", "left":"1px" }}>
+            <div style={{"padding":"0 0 2%"}}>
+                <div style={{ "position": "absolute", "top": "5%", "left": "1px" }}>
                     <Button icon='angle double right' onClick={() => this.setState({ visible: true })} size='huge' color='blue' />
                 </div>
                 <div>
@@ -51,9 +51,8 @@ class MoreOptions extends React.Component {
                                 onHide={() => this.setState({ visible: false })}
                                 vertical
                                 visible={this.state.visible}
-                                width='very wide'
                                 direction='left'
-
+                                style={{ "width": "100%" }}
                             >
 
                                 <Menu.Item as='a'>
@@ -115,7 +114,9 @@ class MoreOptions extends React.Component {
                                         />
                                     </div>
                                 </Menu.Item>
-                                <Button content='Cancel' color='red' onClick={() => this.setState({ visible: false })} />
+                                <Menu.Item>
+                                    <Button content='Cancel' color='red' onClick={() => this.setState({ visible: false })} />
+                                </Menu.Item>
                             </Sidebar>
                         </Grid.Column>
                     </Grid>
@@ -173,11 +174,17 @@ class CourseSelection extends React.Component {
         );
     }
 
+    getColor(){ 
+        return "hsl(" + 360 * Math.random() + ',' +
+                   (25 + 70 * Math.random()) + '%,' + 
+                   (75 + 10 * Math.random()) + '%)'
+    }
     handle_course_codes(keys) {
         const arr = []
         if (keys != null)
             keys.forEach(key => arr.push(key['value']))
         selected_courses = arr
+        course_colors.push(this.getColor())
         this.props.onNewCourse()
     }
 
@@ -217,7 +224,6 @@ class CourseSelection extends React.Component {
     render() {
         return (
             <div>
-                <link rel="stylesheet" type="text/css" href="index.css"></link>
                 {this.course_prefix_select()}
                 {this.course_code_select(this.state.prefix_options)}
             </div>
@@ -235,8 +241,10 @@ class Cell extends React.Component {
         };
     }
     render() {
-        return (
-            <Table.Cell style={this.state.selected ? { 'backgroundColor': '#737373' } : {}} onClick={() => { this.setState({ selected: !this.state.selected }); this.props.onClick(this.state.selected) }}><label>{this.props.value}</label></Table.Cell>
+        return(
+            <Table.Cell style={this.state.selected ? { 'backgroundColor': '#737373' } : {}} onClick={() => { this.setState({ selected: !this.state.selected }); this.props.onClick(this.state.selected) }}>
+                {this.props.value?<Label style={{"backgroundColor":course_colors[selected_courses.indexOf(this.props.value.split("-")[0])]}}>{this.props.value}</Label>:""}
+            </Table.Cell>
         )
     }
 }
@@ -255,7 +263,7 @@ class Schedule extends React.Component {
             <div>
                 <div class='table'>
                     <link rel="stylesheet" type="text/css" href="index.css"></link>
-                    <Table singleLine unstackable style={{ "table-layout": "fixed", "width": "800px" }} color='grey' textAlign='center'>
+                    <Table singleLine unstackable style={{ "table-layout": "fixed" }} color='grey' textAlign='center'>
                         <Table.Header>
                             <Table.Row as='tr'>
                                 <Table.HeaderCell ></Table.HeaderCell>
@@ -550,25 +558,31 @@ class Main extends React.Component {
 
     render() {
         return (
-            <div style={{"position":"relative", "height":"100%", "width":"100%"}}>
-                <div>
-                    <MoreOptions all_sections={this.state.all_sections} all_instructors={this.state.all_instructors} refresh={() => this.get_schedules()} />
-                </div>
-                <div style={{ "position": "absolute", "top": "30%", "left": "50%", "transform": "translate(-50%, -30%)" }}>
-                    <div style={{"padding":"3% 0 3%"}}>
-                        <h1 style={{ "text-align": "center", "padding":"2% 0 2%" }}>Bilkent Scheduler</h1>
+            <div style={{ "position": "relative", "width": "100%" }}>
+                <MoreOptions all_sections={this.state.all_sections} all_instructors={this.state.all_instructors} refresh={() => this.get_schedules()} />
+                <h1 style={{ "text-align": "center", "padding": "3% 0 2%" }}>Bilkent Scheduler</h1>
+                <div style={{ "position": "relative", "left": "50%", "transform": "translateX(-50%)", "width": "100%", "max-width": "800px" }}>
+                    <div style={{ "padding": "3% 0 3%" }}>
                         <CourseSelection onNewCourse={() => this.get_schedules()} />
                     </div>
                     <p style={{ "text-align": "center", "font-size": "1.2em" }}>Combination {this.state.valid_combos.length ? (this.state.schedule_no + 1) : 0} out of {this.state.valid_combos.length ? this.state.valid_combos.length : 0}</p>
-                    <Schedule schedule_table={this.state.schedule_table} blockCell={(column, row, selected) => { this.blockCell(column, row, selected); this.get_schedules() }} />
-                    <div class='prevbutton'>
-                        <Button onClick={() => this.nextSchedule(-1)} floated='left' color='blue' size='very large'>Prev</Button>
+                    <div style={{"overflow":"auto"}}>
+                        <Schedule schedule_table={this.state.schedule_table} blockCell={(column, row, selected) => { this.blockCell(column, row, selected); this.get_schedules() }} />
+                        <div class='prevbutton'>
+                            <Button onClick={() => this.nextSchedule(-1)} floated='left' color='blue' size='very large'>Prev</Button>
+                        </div>
+                        <div class='nextbutton'>
+                            <Button onClick={() => this.nextSchedule(1)} floated='right' color='blue' size='very large'>Next</Button>
+                        </div>
                     </div>
-                    <div class='nextbutton'>
-                        <Button onClick={() => this.nextSchedule(1)} floated='right' color='blue' size='very large'>Next</Button>
+                    <div style={{"text-align": "center", "margin": "auto", "position": "relative", "left": "0", "bottom": "0", "width": "100%", "padding": "110px 0 10px"}}>
+                        Do you have suggestions or want to contribute?<br />
+                        Send a bug report or pull request: <a href="https://github.com/scarypercentage/bilkent-course-scheduler" title="Github">Github</a><br />
+                        Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a><br />
+                        Powered by React.js&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Theme by Semantic-UI
                     </div>
-
                 </div>
+
             </div>
         )
     }
@@ -578,11 +592,3 @@ class Main extends React.Component {
 
 
 ReactDOM.render(<Main />, document.getElementById('root'));
-ReactDOM.render((
-    <div>
-    Is there a bug? Do you have suggestions? Do you want to contribute?<br />
-    Send a report or pull request: https://github.com/scarypercentage/bilkent-course-scheduler<br />
-    Powered by React.js&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Theme by Semantic-UI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
-    </div>
-), document.getElementById('footer'))

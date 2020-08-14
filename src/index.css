@@ -6,7 +6,7 @@ td{
 }
 
 .table{
-    /*width: 60%;*/
+    font-size: min(2.7vw, 14px);
     height: 80%;
     margin-left: auto !important;
     margin-right: auto !important;
@@ -36,7 +36,7 @@ td{
 }
 
 .select input{
-    font-size: 1.45em !important;
+    font-size: 1em !important;
     width: 100% !important;
 }
 
@@ -51,6 +51,10 @@ td{
 .tableRow{
     align-content: center;
     justify-content: center;
+}
+
+.item{
+    top: 10%;
 }
 
 .button{
