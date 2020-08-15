@@ -5,9 +5,8 @@ import makeAnimated from 'react-select/animated';
 // import course_codes from './course_codes.json';
 import 'semantic-ui-css/semantic.min.css';
 import {
-    Label, Menu, Table, Button, Sidebar, Grid
+    Label, Menu, Table, Button, Sidebar, Grid, Modal
 } from 'semantic-ui-react'
-import Dialog from 'react';
 import './index.css';
 
 const course_prefixes = [{ value: 'ACC', label: 'ACC' }, { value: 'ADA', label: 'ADA' }, { value: 'AMER', label: 'AMER' }, { value: 'ARCH', label: 'ARCH' }, { value: 'BF', label: 'BF' }, { value: 'BIM', label: 'BIM' }, { value: 'BTE', label: 'BTE' }, { value: 'CHEM', label: 'CHEM' }, { value: 'CI', label: 'CI' }, { value: 'CINT', label: 'CINT' }, { value: 'COMD', label: 'COMD' }, { value: 'CS', label: 'CS' }, { value: 'CTE', label: 'CTE' }, { value: 'CTIS', label: 'CTIS' }, { value: 'ECON', label: 'ECON' }, { value: 'EDEB', label: 'EDEB' }, { value: 'EEE', label: 'EEE' }, { value: 'EEPS', label: 'EEPS' }, { value: 'ELIT', label: 'ELIT' }, { value: 'ELS', label: 'ELS' }, { value: 'EMBA', label: 'EMBA' }, { value: 'ENG', label: 'ENG' }, { value: 'ETE', label: 'ETE' }, { value: 'FA', label: 'FA' }, { value: 'FRP', label: 'FRP' }, { value: 'GE', label: 'GE' }, { value: 'GRA', label: 'GRA' }, { value: 'HART', label: 'HART' }, { value: 'HCIV', label: 'HCIV' }, { value: 'HIST', label: 'HIST' }, { value: 'HUM', label: 'HUM' }, { value: 'IAED', label: 'IAED' }, { value: 'IE', label: 'IE' }, { value: 'IELTS', label: 'IELTS' }, { value: 'IR', label: 'IR' }, { value: 'LAUD', label: 'LAUD' }, { value: 'LAW', label: 'LAW' }, { value: 'LNG', label: 'LNG' }, { value: 'MAN', label: 'MAN' }, { value: 'MATH', label: 'MATH' }, { value: 'MBA', label: 'MBA' }, { value: 'MBG', label: 'MBG' }, { value: 'ME', label: 'ME' }, { value: 'MIAPP', label: 'MIAPP' }, { value: 'MSC', label: 'MSC' }, { value: 'MSN', label: 'MSN' }, { value: 'MTE', label: 'MTE' }, { value: 'MUS', label: 'MUS' }, { value: 'NSC', label: 'NSC' }, { value: 'PE', label: 'PE' }, { value: 'PHIL', label: 'PHIL' }, { value: 'PHYS', label: 'PHYS' }, { value: 'POLS', label: 'POLS' }, { value: 'PREP', label: 'PREP' }, { value: 'PSYC', label: 'PSYC' }, { value: 'SFL', label: 'SFL' }, { value: 'SOC', label: 'SOC' }, { value: 'TE', label: 'TE' }, { value: 'TEFL', label: 'TEFL' }, { value: 'THEA', label: 'THEA' }, { value: 'THM', label: 'THM' }, { value: 'THR', label: 'THR' }, { value: 'TOEFL', label: 'TOEFL' }, { value: 'TRIN', label: 'TRIN' }, { value: 'TURK', label: 'TURK' }]
@@ -37,7 +36,7 @@ class MoreOptions extends React.Component {
 
 
         return (
-            <div style={{"padding":"0 0 2%"}}>
+            <div style={{ "padding": "0 0 2%" }}>
                 <div style={{ "position": "absolute", "top": "4.5%", "padding": "3% 0px 2%" }}>
                     <Button icon='angle double right' onClick={() => this.setState({ visible: true })} size='huge' color='blue' />
                 </div>
@@ -175,10 +174,10 @@ class CourseSelection extends React.Component {
         );
     }
 
-    getColor(){ 
+    getColor() {
         return "hsl(" + 360 * Math.random() + ',' +
-                   (25 + 70 * Math.random()) + '%,' + 
-                   (75 + 10 * Math.random()) + '%)'
+            (25 + 70 * Math.random()) + '%,' +
+            (75 + 10 * Math.random()) + '%)'
     }
     handle_course_codes(keys) {
         const arr = []
@@ -242,9 +241,9 @@ class Cell extends React.Component {
         };
     }
     render() {
-        return(
+        return (
             <Table.Cell style={this.state.selected ? { 'backgroundColor': '#737373' } : {}} onClick={() => { this.setState({ selected: !this.state.selected }); this.props.onClick(this.state.selected) }}>
-                {this.props.value?<Label style={{"width":"100%", "font-size":this.props.value.length>8?"min(1.6vw, 14px)":"min(2vw, 14px)", "backgroundColor":course_colors[selected_courses.indexOf(this.props.value.split("-")[0])]}}>{this.props.value}</Label>:""}
+                {this.props.value ? <Label style={{ "width": "100%", "font-size": this.props.value.length > 8 ? "min(1.6vw, 14px)" : "min(2vw, 14px)", "backgroundColor": course_colors[selected_courses.indexOf(this.props.value.split("-")[0])] }}>{this.props.value}</Label> : ""}
             </Table.Cell>
         )
     }
@@ -365,44 +364,89 @@ class Schedule extends React.Component {
     }
 }
 
-class PolicyDialog extends React.Component
-{
+class PolicyDialog extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { visible: true };
+        this.state = {
+            open: false
+        };
     }
+    render() {
+        return (
+            <Modal
+                open={this.state.open}
+                onClose={() => this.setState({ open: false })}
+                onOpen={() => this.setState({ open: true })}
+                // eslint-disable-next-line
+                trigger={<a href="#">privacy policy.</a>}
+            >
+                <Modal.Header>Privacy Policy</Modal.Header>
+                <Modal.Content scrolling>
+                    <Modal.Description>
+                        <p>
+                            We are committed to ensuring that your privacy is protected and we shall endeavour to
+                            use any information that you provide when using this website in accordance with this privacy policy. We may amend this policy from time to time by updating this page. Therefore, we
+                            suggest you check this page occasionally to ensure you are aware of and are happy with any amendments.
+                        </p>
+                        <p><b>Google Analytics</b></p>
+                        <div>
+                            <p>
+                                To collect information about how visitors use our website and to improve our services, we are
+                                using
+                                Google Analytics on this website. You can find out more about how Google Analytics works and about
+                                how information is collected on the Google Analytics terms of services and on Google’s privacy policy.
+                            </p>
 
-    render()
-    {
-        return(
-        <div>    
-            <Dialog>
-                Privacy Policy
+                            <ul>
+                                <li>Google Analytics Terms of Service: <a href="http://www.google.com/analytics/terms/us.html"
+                                    onClick="gtag('event', 'out', {'event_category': 'privacy.html','event_label':'ga-terms'});">http://www.google.com/analytics/terms/us.html</a>
+                                </li>
+                                <li>Google Privacy Policy: <a href="https://policies.google.com/privacy?hl=en"
+                                    onClick="gtag('event', 'out', {'event_category': 'privacy.html','event_label':'google-privacy'});">https://policies.google.com/privacy?hl=en</a>
+                                </li>
+                                <li>Google Analytics Opt-out Add-on: <a href="https://tools.google.com/dlpage/gaoptout?hl=en"
+                                    onClick="gtag('event', 'out', {'event_category': 'privacy.html','event_label':'ga-opt-out'});">https://tools.google.com/dlpage/gaoptout?hl=en</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <p>
+                            Our website uses Google Analytics, a web analytics service provided by Google, Inc.
+                            ("Google"). The information generated by the cookie about your use of our website (including your IP
+                            address) will be transmitted to and stored by Google on servers in the United States. Google will use this
+                            information for the purpose of evaluating your use of our website, compiling reports on website activity for
+                            website operators and providing other services relating to website activity and internet usage. Google may
+                            also transfer this information to third parties where required to do so by law, or where such third parties
+                            process the information on Google’s behalf.
+                            <p><b>Changes</b></p>
+                                <p>
+                                    We may make changes to this privacy policy from time to time. If we change our
+                                    privacy policy we will post the changes on this page. Continued use of the service will signify that
+                                    you agree to any such changes.
+                                </p>
+                                <p><b>Your acceptance of this privacy policy</b></p>
+                                <p>If you do not agree to this privacy policy, please do not use our site.</p>
+                                <p>
+                                    By using our site, you consent to the collection and use of information by us. Owing
+                                    to the global nature of the internet infrastructure, the information you provide may be transferred in
+                                    transit to countries outside the European Economic Area that do not have similar protections in place
+                                    regarding your data and its use as set out in this policy. However, we have taken the steps outlined above
+                                    to try to improve the security of your information. By submitting your information you consent to these
+                                    transfers.
+                                </p>
+                                To find out more about your rights under the Data Protection Act, visit the
+                                Information Commissioner’s website:
+                            <a href="www.dataprotection.gov.uk">www.dataprotection.gov.uk</a> or read the Act online at:
+                            <a href="http://www.hmso.gov.uk/acts/acts1998/19980029.htm">www.hmso.gov.uk/acts/acts1998/19980029.htm</a>.
+                        </p>
 
-                We are committed to ensuring that your privacy is protected and we shall endeavour to use any information that you provide when using this website in accordance with this privacy policy.
-
-                This privacy policy explains what information we collect, how we protect any information you submit to us, and how we use it.
-
-                We may amend this policy from time to time by updating this page. Therefore, we suggest you check this page occasionally to ensure you are aware of and are happy with any amendments.
-
-                Google Analytics
-
-                Our website uses Google Analytics, a web analytics service provided by Google, Inc. ("Google"). The information generated by the cookie about your use of our website (including your IP address) will be transmitted to and stored by Google on servers in the United States. Google will use this information for the purpose of evaluating your use of our website, compiling reports on website activity for website operators and providing other services relating to website activity and internet usage. Google may also transfer this information to third parties where required to do so by law, or where such third parties process the information on Google’s behalf. Google will not associate your IP address with any other data held by Google.  Further information about Google’s privacy policy may be obtained from http://www.google.com/privacy.html.
-
-                Changes
-
-                We may make changes to this privacy policy from time to time. If we change our privacy policy we will post the changes on this page. Continued use of the service will signify that you agree to any such changes
-
-                Your acceptance of this privacy policy
-
-                If you do not agree to this privacy policy, please do not use our site.
-
-                By using our site, you consent to the collection and use of information by us. Owing to the global nature of the internet infrastructure, the information you provide may be transferred in transit to countries outside the European Economic Area that do not have similar protections in place regarding your data and its use as set out in this policy. However, we have taken the steps outlined above to try to improve the security of your information. By submitting your information you consent to these transfers.
-
-                To find out more about your rights under the Data Protection Act, visit the Information Commissioner’s website: www.dataprotection.gov.uk or read the Act online at: www.hmso.gov.uk/acts/acts1998/19980029.htm.
-            </Dialog>
-            <Button onClick={() => this.setState({ visible: false })}>OK</Button>
-        </div>    
+                    </Modal.Description>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button onClick={() => this.setState({ open: false })}>
+                        Agree
+                    </Button>
+                </Modal.Actions>
+            </Modal>
         )
     }
 }
@@ -602,13 +646,13 @@ class Main extends React.Component {
         return (
             <div style={{ "position": "relative", "width": "100%" }}>
                 <MoreOptions all_sections={this.state.all_sections} all_instructors={this.state.all_instructors} refresh={() => this.get_schedules()} />
-                <h1 style={{ "text-align": "center", "padding": "3% 0 2%", "font-size": "min(8vw, 2.7em)"}}>Bilkent Scheduler</h1>
+                <h1 style={{ "text-align": "center", "padding": "3% 0 2%", "font-size": "min(8vw, 2.7em)" }}>Bilkent Scheduler</h1>
                 <div style={{ "position": "relative", "left": "50%", "transform": "translateX(-50%)", "width": "100%", "max-width": "800px" }}>
                     <div style={{ "padding": "3% 0 3%" }}>
                         <CourseSelection onNewCourse={() => this.get_schedules()} />
                     </div>
                     <p style={{ "text-align": "center", "font-size": "1.2em" }}>Combination {this.state.valid_combos.length ? (this.state.schedule_no + 1) : 0} out of {this.state.valid_combos.length ? this.state.valid_combos.length : 0}</p>
-                    <div style={{"overflow":"auto"}}>
+                    <div style={{ "overflow": "auto" }}>
                         <Schedule schedule_table={this.state.schedule_table} blockCell={(column, row, selected) => { this.blockCell(column, row, selected); this.get_schedules() }} />
                         <div class='prevbutton'>
                             <Button onClick={() => this.nextSchedule(-1)} floated='left' color='blue' size='very large'>Prev</Button>
@@ -617,10 +661,10 @@ class Main extends React.Component {
                             <Button onClick={() => this.nextSchedule(1)} floated='right' color='blue' size='very large'>Next</Button>
                         </div>
                     </div>
-                    <div style={{"text-align": "center", "margin": "auto", "position": "relative", "left": "0", "bottom": "0", "width": "100%", "padding": "110px 0 10px"}}>
+                    <div style={{ "text-align": "center", "margin": "auto", "position": "relative", "left": "0", "bottom": "0", "width": "100%", "padding": "110px 0 10px" }}>
                         Do you have suggestions or want to contribute?<br />
                         Send a bug report or pull request: <a href="https://github.com/scarypercentage/bilkent-course-scheduler" title="Github">Github</a><br />
-                        This site uses everything Google Analytics offers for fun. <br /> Google Analytic uses your cookies and identifiers. <br /> You may choose to <a href="https://tools.google.com/dlpage/gaoptout/" title="optout">opt-out</a>. For more info see the <a href="#" onClick={<PolicyDialog />}>privacy policy</a><br />.
+                        This site uses everything Google Analytics offers for fun. <br /> Google Analytic uses your cookies and identifiers. <br /> You may choose to <a href="https://tools.google.com/dlpage/gaoptout/" title="optout">opt-out</a>. For more info see the <PolicyDialog /><br />
                         Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a><br />
                         Powered by React.js&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Theme by Semantic-UI
                     </div>
