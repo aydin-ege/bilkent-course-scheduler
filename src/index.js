@@ -578,6 +578,7 @@ class Main extends React.Component {
                     <div style={{"text-align": "center", "margin": "auto", "position": "relative", "left": "0", "bottom": "0", "width": "100%", "padding": "110px 0 10px"}}>
                         Do you have suggestions or want to contribute?<br />
                         Send a bug report or pull request: <a href="https://github.com/scarypercentage/bilkent-course-scheduler" title="Github">Github</a><br />
+                        This site uses everything Google Analytics offers for fun. <br /> Google Analytic uses your cookies and identifiers. <br /> You may choose to <a href="https://tools.google.com/dlpage/gaoptout/" title="optout">opt-out</a>. For more info see the <a href="privacypolicy.html">privacy policy</a><br />.
                         Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a><br />
                         Powered by React.js&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Theme by Semantic-UI
                     </div>
