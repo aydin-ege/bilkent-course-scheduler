@@ -5,6 +5,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-175359021-1"></script>
   <script>
+    document.cookie = "SameSite=Strict;path=/";
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
@@ -14,12 +15,14 @@
 
   <meta charset="utf-8" />
   <link rel="icon" href="%PUBLIC_URL%/favicon-16x16.png" />
+  <meta http-equiv="Cache-control" content="public">  
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#00aae7" />
   <title>Bilkent Course Scheduler</title>
   <meta name="description" content="Bilkent University Course Scheduler App" />
   <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  
   <title>Course Scheduler</title>
 </head>
 
