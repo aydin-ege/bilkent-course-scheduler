@@ -7,7 +7,7 @@ import {
     Label, Menu, Table, Button, Sidebar, Grid
 } from 'semantic-ui-react'
 import './index.css';
-//import WelcomeDialog from './welcome.js';
+import WelcomeDialog from './welcome.js';
 const PolicyDialog = lazy(() => import("./policy.js"));
 
 const course_prefixes = []
@@ -563,6 +563,7 @@ class Main extends React.Component {
     render() {
         return (
             <div style={{ "position": "relative", "width": "100%" }}>
+                <WelcomeDialog />
                 <MoreOptions all_sections={this.state.all_sections} all_instructors={this.state.all_instructors} refresh={() => this.get_schedules()} />
                 <h1 style={{ "text-align": "center", "padding": "3% 0 2%", "font-size": "min(8vw, 2.7em)" }}>Bilkent Scheduler</h1>
                 <div style={{ "position": "relative", "left": "50%", "transform": "translateX(-50%)", "width": "100%", "max-width": "800px" }}>

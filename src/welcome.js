@@ -18,16 +18,15 @@ export default class WelcomeDialog extends React.Component {
                 onClose={() => this.setState({ open: false })}
                 onOpen={() => this.setState({ open: true })}
             >
-                <Modal.Header>Old data</Modal.Header>
+                <Modal.Header>Things are changing...</Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
                         <p>
-                            Right now, Bilkent Offerings has no schedule data for some reason. <br/><br/>
-                            This may be because "Weekly course schedules have been completely redesigned for the 2020-21 academic year," 
-                            as they said. If that's the case, I will also change stuff to fit the "completely redesigned" scheduler format.<br/><br/> 
-                            However, until they decide to tell us exactly how things are going to be, this site will continue to operate on 
-                            old course data. Unfortunately, I didn't do any backups, so the latest data is from August 16th, and there might 
-                            be some differences from reality.
+                            Right now, Bilkent Offerings is constantly updated. <br/><br/>
+                            This is probably because "Weekly course schedules have been completely redesigned for the 2020-21 academic year," 
+                            as they said. Right now things doesn't really work and I'm trying to fix stuff as there are some new things introduced.
+                            I will get things done soon hopefully. <br />
+                            Thank you for your patience.
                         </p>
                     </Modal.Description>
                 </Modal.Content>
