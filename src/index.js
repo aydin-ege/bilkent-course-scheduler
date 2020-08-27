@@ -12,9 +12,10 @@ const PolicyDialog = lazy(() => import("./policy.js"));
 
 const course_prefixes = []
 import('./course_prefixes.json').then(e => e.data.forEach(element => {
-    course_prefixes.push({"value": element, "label": element})
+    course_prefixes.push({ "value": element, "label": element })
 }));
 
+const log = console.log
 const animatedComponents = makeAnimated();
 let selected_courses = []
 let old_selection = []
@@ -247,7 +248,7 @@ class Cell extends React.Component {
     render() {
         return (
             <Table.Cell style={this.state.selected ? { 'backgroundColor': '#737373' } : {}} onClick={() => { this.setState({ selected: !this.state.selected }); this.props.onClick(this.state.selected) }}>
-                {this.props.value ? <Label style={{ "width": "100%", "font-size": this.props.value.length > 8 ? "min(1.6vw, 14px)" : "min(2vw, 14px)", "backgroundColor": course_colors[selected_courses.indexOf(this.props.value.split("-")[0])] }}>{this.props.value}</Label> : ""}
+                {this.props.value ? <Label style={{ "width": "100%", "fontSize": this.props.value.length > 8 ? "min(1.04vw, 12.2px)" : "min(1.34vw, 14px)", "backgroundColor": course_colors[selected_courses.indexOf(this.props.value.split("-")[0])] }}>{this.props.value}</Label> : ""}
             </Table.Cell>
         )
     }
@@ -256,110 +257,208 @@ class Cell extends React.Component {
 
 class Schedule extends React.Component {
 
-    renderCell(row, column) {
+    renderCell(row, column, style = {}) {
         return (
-            <Cell value={this.props.schedule_table[row * 5 + column]} onClick={(selected) => this.props.blockCell(column, row, selected)}></Cell>
+            <Cell value={this.props.schedule_table[row * 7 + column]} style={style} onClick={(selected) => this.props.blockCell(column, row, selected)}></Cell>
         )
     }
 
     render() {
         return (
             <div>
-                <div class='table'>
+                <div className='table'>
                     <link rel="stylesheet" type="text/css" href="index.css"></link>
-                    <Table singleLine unstackable style={{ "table-layout": "fixed" }} color='grey' textAlign='center'>
+                    <Table singleLine unstackable color='grey'>
                         <Table.Header>
                             <Table.Row as='tr'>
-                                <Table.HeaderCell ></Table.HeaderCell>
+                                <Table.HeaderCell></Table.HeaderCell>
                                 <Table.HeaderCell>Mon</Table.HeaderCell>
                                 <Table.HeaderCell>Tue</Table.HeaderCell>
                                 <Table.HeaderCell>Wed</Table.HeaderCell>
                                 <Table.HeaderCell>Thu</Table.HeaderCell>
                                 <Table.HeaderCell>Fri</Table.HeaderCell>
+                                <Table.HeaderCell></Table.HeaderCell>
+                                <Table.HeaderCell>Sat</Table.HeaderCell>
+                                <Table.HeaderCell>Sun</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
 
                         <Table.Body>
                             <Table.Row>
-                                <Table.HeaderCell style={{ "height": "40px" }}>8:40-9:30</Table.HeaderCell>
+                                <Table.HeaderCell>8:30-9:20</Table.HeaderCell>
                                 {this.renderCell(0, 0)}
                                 {this.renderCell(0, 1)}
                                 {this.renderCell(0, 2)}
                                 {this.renderCell(0, 3)}
                                 {this.renderCell(0, 4)}
+                                <Table.HeaderCell>8:30-9:20</Table.HeaderCell>
+                                {this.renderCell(0, 5)}
+                                {this.renderCell(0, 6)}
                             </Table.Row>
-
+                            <tr style={{ "height": "2px" }} />
                             <Table.Row>
-                                <Table.HeaderCell style={{ "height": "40px" }} textAlign='center'>9:40-10:30</Table.HeaderCell>
+                                <Table.HeaderCell>9:30-10:20</Table.HeaderCell>
                                 {this.renderCell(1, 0)}
                                 {this.renderCell(1, 1)}
                                 {this.renderCell(1, 2)}
                                 {this.renderCell(1, 3)}
                                 {this.renderCell(1, 4)}
+                                <Table.HeaderCell>9:30-10:20</Table.HeaderCell>
+                                {this.renderCell(1, 5)}
+                                {this.renderCell(1, 6)}
                             </Table.Row>
-
+                            <tr style={{ "height": "2px" }} />
                             <Table.Row>
-                                <Table.HeaderCell style={{ "height": "40px" }} textAlign='center'>10:40-11:30</Table.HeaderCell>
+                                <Table.HeaderCell>10:30-11:20</Table.HeaderCell>
                                 {this.renderCell(2, 0)}
                                 {this.renderCell(2, 1)}
                                 {this.renderCell(2, 2)}
                                 {this.renderCell(2, 3)}
                                 {this.renderCell(2, 4)}
+                                <Table.HeaderCell>10:30-11:20</Table.HeaderCell>
+                                {this.renderCell(2, 5)}
+                                {this.renderCell(2, 6)}
                             </Table.Row>
-
+                            <tr style={{ "height": "2px" }} />
                             <Table.Row>
-                                <Table.HeaderCell style={{ "height": "40px" }} textAlign='center'>11:40-12:30</Table.HeaderCell>
+                                <Table.HeaderCell>11:30-12:20</Table.HeaderCell>
                                 {this.renderCell(3, 0)}
                                 {this.renderCell(3, 1)}
                                 {this.renderCell(3, 2)}
                                 {this.renderCell(3, 3)}
                                 {this.renderCell(3, 4)}
+                                <Table.HeaderCell>11:30-12:20</Table.HeaderCell>
+                                {this.renderCell(3, 5)}
+                                {this.renderCell(3, 6)}
                             </Table.Row>
-
+                            <tr style={{ "height": "2px" }} />
                             <Table.Row>
-                                <Table.HeaderCell style={{ "height": "40px" }} textAlign='center'>12:40-13:30</Table.HeaderCell>
+                                <Table.HeaderCell>12:20-13:30</Table.HeaderCell>
                                 {this.renderCell(4, 0)}
                                 {this.renderCell(4, 1)}
                                 {this.renderCell(4, 2)}
                                 {this.renderCell(4, 3)}
                                 {this.renderCell(4, 4)}
+                                <Table.HeaderCell>12:20-13:30</Table.HeaderCell>
+                                {this.renderCell(4, 5)}
+                                {this.renderCell(4, 6)}
                             </Table.Row>
-
+                            <tr style={{ "height": "2px" }} />
                             <Table.Row>
-                                <Table.HeaderCell style={{ "height": "40px" }} textAlign='center'>13:40-14:30</Table.HeaderCell>
+                                <Table.HeaderCell>13:30-14:20</Table.HeaderCell>
                                 {this.renderCell(5, 0)}
                                 {this.renderCell(5, 1)}
                                 {this.renderCell(5, 2)}
                                 {this.renderCell(5, 3)}
                                 {this.renderCell(5, 4)}
+                                <Table.HeaderCell>13:30-14:20</Table.HeaderCell>
+                                {this.renderCell(5, 5)}
+                                {this.renderCell(5, 6)}
                             </Table.Row>
-
+                            <tr style={{ "height": "2px" }} />
                             <Table.Row>
-                                <Table.HeaderCell style={{ "height": "40px" }} textAlign='center'>14:40-15:30</Table.HeaderCell>
+                                <Table.HeaderCell>14:30-15:20</Table.HeaderCell>
                                 {this.renderCell(6, 0)}
                                 {this.renderCell(6, 1)}
                                 {this.renderCell(6, 2)}
                                 {this.renderCell(6, 3)}
                                 {this.renderCell(6, 4)}
+                                <Table.HeaderCell>14:30-15:20</Table.HeaderCell>
+                                {this.renderCell(6, 5)}
+                                {this.renderCell(6, 6)}
                             </Table.Row>
-
+                            <tr style={{ "height": "2px" }} />
                             <Table.Row>
-                                <Table.HeaderCell style={{ "height": "40px" }} textAlign='center'>15:40-16:30</Table.HeaderCell>
+                                <Table.HeaderCell>15:30-16:20</Table.HeaderCell>
                                 {this.renderCell(7, 0)}
                                 {this.renderCell(7, 1)}
                                 {this.renderCell(7, 2)}
                                 {this.renderCell(7, 3)}
                                 {this.renderCell(7, 4)}
+                                <Table.HeaderCell>15:30-16:20</Table.HeaderCell>
+                                {this.renderCell(7, 5)}
+                                {this.renderCell(7, 6)}
                             </Table.Row>
-
+                            <tr style={{ "height": "1px" }} />
                             <Table.Row>
-                                <Table.HeaderCell style={{ "height": "40px" }} textAlign='center'>16:40-17:30</Table.HeaderCell>
+                                <Table.HeaderCell style={{ "height": "55px" }}>16:20-17:40</Table.HeaderCell>
                                 {this.renderCell(8, 0)}
                                 {this.renderCell(8, 1)}
                                 {this.renderCell(8, 2)}
                                 {this.renderCell(8, 3)}
                                 {this.renderCell(8, 4)}
+                                <td style={{ "padding": "0", "border": "0", "backgroundColor": "white", "verticalAlign": "baseline" }} colSpan="3" rowSpan="5">
+                                    <Table singleLine unstackable style={{ "width": "100%", "border": "none" }}>
+                                        <Table.Body>
+                                            <tr style={{ "height": "2px" }} />
+                                            <Table.Row>
+                                                <Table.HeaderCell style={{ "width": "33.3%" }}>16:30-17:20</Table.HeaderCell>
+                                                {this.renderCell(8, 5, { "width": "33.3%" })}
+                                                {this.renderCell(8, 6, { "width": "33.3%" })}
+                                            </Table.Row>
+                                            <tr style={{ "height": "2px" }} />
+                                            <Table.Row>
+                                                <Table.HeaderCell style={{ "width": "33.3%" }}>17:30-18:20</Table.HeaderCell>
+                                                {this.renderCell(9, 5, { "width": "33.3%" })}
+                                                {this.renderCell(9, 6, { "width": "33.3%" })}
+                                            </Table.Row>
+                                            <tr style={{ "height": "2px" }} />
+                                            <Table.Row>
+                                                <Table.HeaderCell style={{ "width": "33.3%" }}>18:30-19:20</Table.HeaderCell>
+                                                {this.renderCell(10, 5, { "width": "33.3%" })}
+                                                {this.renderCell(10, 6, { "width": "33.3%" })}
+                                            </Table.Row>
+                                        </Table.Body>
+                                    </Table>
+                                </td>
                             </Table.Row>
+                            <tr style={{ "height": "1px" }} />
+                            <Table.Row>
+                                <Table.HeaderCell>17:40-18:30</Table.HeaderCell>
+                                {this.renderCell(9, 0)}
+                                {this.renderCell(9, 1)}
+                                {this.renderCell(9, 2)}
+                                {this.renderCell(9, 3)}
+                                {this.renderCell(9, 4)}
+
+                            </Table.Row>
+                            <tr style={{ "height": "2px" }} />
+                            <Table.Row>
+                                <Table.HeaderCell>18:40-19:30</Table.HeaderCell>
+                                {this.renderCell(10, 0)}
+                                {this.renderCell(10, 1)}
+                                {this.renderCell(10, 2)}
+                                {this.renderCell(10, 3)}
+                                {this.renderCell(10, 4)}
+                            </Table.Row>
+                            <tr style={{ "height": "2px" }} />
+                            <Table.Row>
+                                <Table.HeaderCell>19:30-20:10</Table.HeaderCell>
+                                {this.renderCell(11, 0)}
+                                {this.renderCell(11, 1)}
+                                {this.renderCell(11, 2)}
+                                {this.renderCell(11, 3)}
+                                {this.renderCell(11, 4)}
+                            </Table.Row>
+                            <tr style={{ "height": "2px" }} />
+                            <Table.Row>
+                                <Table.HeaderCell>20:10-21:00</Table.HeaderCell>
+                                {this.renderCell(12, 0)}
+                                {this.renderCell(12, 1)}
+                                {this.renderCell(12, 2)}
+                                {this.renderCell(12, 3)}
+                                {this.renderCell(12, 4)}
+                            </Table.Row>
+                            <tr style={{ "height": "2px" }} />
+                            <Table.Row>
+                                <Table.HeaderCell>21:10-22:00</Table.HeaderCell>
+                                {this.renderCell(13, 0)}
+                                {this.renderCell(13, 1)}
+                                {this.renderCell(13, 2)}
+                                {this.renderCell(13, 3)}
+                                {this.renderCell(13, 4)}
+                            </Table.Row>
+
                         </Table.Body>
                     </Table>
                 </div>
@@ -376,7 +475,7 @@ class Main extends React.Component {
             schedule_table: [],
             recvd_data: [],
             valid_combos: [],
-            blocked_cells: { "Mon": [], "Tue": [], "Wed": [], "Thu": [], "Fri": [] },
+            blocked_cells: { "Mon": [], "Tue": [], "Wed": [], "Thu": [], "Fri": [], "Sat": [], "Sun": [] },
             schedule_no: 0,
             all_sections: {},
             all_instructors: {}
@@ -426,18 +525,18 @@ class Main extends React.Component {
 
     create_table(valid_combo) {
         const current_schedule = []
-        const days = ["Mon", "Tue", "Wed", "Thu", "Fri"]
-        for (let i = 0; i < 10; i++) {
-            for (let j = 0; j < 5; j++) {
+        const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+        for (let i = 0; i < 14; i++) {
+            for (let j = 0; j < 7; j++) {
                 for (let k = 0; k < valid_combo.length; k++) {
                     let section_no = valid_combo[k]
                     let course_name = selected_courses[k]
                     let course_hours = this.state.recvd_data[k][section_no][1]
                     if (course_hours[days[j]] && course_hours[days[j]].includes(i)) {
-                        current_schedule[i * 5 + j] = course_name + "-" + section_no
+                        current_schedule[i * 7 + j] = course_name + "-" + section_no
                     }
-                    else if (!current_schedule[i * 5 + j])
-                        current_schedule[i * 5 + j] = ""
+                    else if (!current_schedule[i * 7 + j])
+                        current_schedule[i * 7 + j] = ""
                 }
             }
         }
@@ -533,8 +632,12 @@ class Main extends React.Component {
                 blocked_cells["Wed"].push(row)
             else if (column === 3)
                 blocked_cells["Thu"].push(row)
-            else
+            else if (column === 4)
                 blocked_cells["Fri"].push(row)
+            else if (column === 5)
+                blocked_cells["Sat"].push(row)
+            else
+                blocked_cells["Sun"].push(row)
         else {
             if (column === 0) {
                 if (blocked_cells["Mon"].indexOf(row) > -1)
@@ -552,35 +655,51 @@ class Main extends React.Component {
                 if (blocked_cells["Thu"].indexOf(row) > -1)
                     blocked_cells["Thu"].splice(blocked_cells["Thu"].indexOf(row), 1)
             }
-            else {
+            else if (column === 4) {
                 if (blocked_cells["Fri"].indexOf(row) > -1)
                     blocked_cells["Fri"].splice(blocked_cells["Fri"].indexOf(row), 1)
             }
+            else if (column === 5) {
+                if (blocked_cells["Sat"].indexOf(row) > -1)
+                    blocked_cells["Sat"].splice(blocked_cells["Sat"].indexOf(row), 1)
+            }
+            else if (column === 6) {
+                if (blocked_cells["Sun"].indexOf(row) > -1)
+                    blocked_cells["Sun"].splice(blocked_cells["Sun"].indexOf(row), 1)
+            }
         }
+        log(blocked_cells)
+
         this.setState({ blocked_cells: blocked_cells })
     }
 
     render() {
         return (
             <div style={{ "position": "relative", "width": "100%" }}>
-                <WelcomeDialog />
                 <MoreOptions all_sections={this.state.all_sections} all_instructors={this.state.all_instructors} refresh={() => this.get_schedules()} />
-                <h1 style={{ "text-align": "center", "padding": "3% 0 2%", "font-size": "min(8vw, 2.7em)" }}>Bilkent Scheduler</h1>
-                <div style={{ "position": "relative", "left": "50%", "transform": "translateX(-50%)", "width": "100%", "max-width": "800px" }}>
+                <h1 style={{ "textAlign": "center", "padding": "3% 0 2%", "fontSize": "min(8vw, 2.7em)" }}>Bilkent Scheduler</h1>
+                <div style={{ "position": "relative", "left": "50%", "transform": "translateX(-50%)", "width": "100%", "maxWidth": "1000px" }}>
                     <div style={{ "padding": "3% 0 3%" }}>
                         <CourseSelection onNewCourse={() => this.get_schedules()} />
                     </div>
-                    <p style={{ "text-align": "center", "font-size": "1.2em" }}>Combination {this.state.valid_combos.length ? (this.state.schedule_no + 1) : 0} out of {this.state.valid_combos.length ? this.state.valid_combos.length : 0}</p>
-                    <div style={{ "overflow": "auto" }}>
+                    <table style={{ "overflow": "auto", "width": "100%" }}>
+                        <tbody>
+                            <tr>
+                                <td id="npbutton" className='prevbutton'>
+                                    <Button onClick={() => this.nextSchedule(-1)} color='blue'>Prev</Button>
+                                </td>
+                                <td className='combination'>Combination {this.state.valid_combos.length ? (this.state.schedule_no + 1) : 0} out of {this.state.valid_combos.length ? this.state.valid_combos.length : 0}</td>
+                                <td id="npbutton" className='nextbutton'>
+                                    <Button onClick={() => this.nextSchedule(1)} color='blue'>Next</Button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div>
                         <Schedule schedule_table={this.state.schedule_table} blockCell={(column, row, selected) => { this.blockCell(column, row, selected); this.get_schedules() }} />
-                        <div class='prevbutton'>
-                            <Button onClick={() => this.nextSchedule(-1)} floated='left' color='blue' size='medium'>Prev</Button>
-                        </div>
-                        <div class='nextbutton'>
-                            <Button onClick={() => this.nextSchedule(1)} floated='right' color='blue' size='medium'>Next</Button>
-                        </div>
                     </div>
-                    <div style={{ "text-align": "center", "margin": "auto", "position": "relative", "left": "0", "bottom": "0", "width": "100%", "padding": "110px 0 10px" }}>
+
+                    <div style={{ "textAlign": "center", "margin": "auto", "position": "relative", "left": "0", "bottom": "0", "width": "100%", "padding": "110px 0 10px" }}>
                         Do you have suggestions or want to contribute?<br />
                         Send a bug report or pull request: <a href="https://github.com/scarypercentage/bilkent-course-scheduler" title="Github">Github</a><br />
                         This site uses everything Google Analytics offers for fun. <br /> Google Analytic uses your cookies and identifiers. <br /> You may choose to <a href="https://tools.google.com/dlpage/gaoptout/" title="optout">opt-out</a>. For more info see the <Suspense fallback={<div>Loading...</div>}><PolicyDialog /></Suspense><br />
