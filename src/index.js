@@ -381,16 +381,16 @@ class Schedule extends React.Component {
                             </Table.Row>
                             <tr style={{ "height": "1px" }} />
                             <Table.Row>
-                                <Table.HeaderCell style={{ "height": "55px" }}>16:20-17:40</Table.HeaderCell>
+                                <Table.HeaderCell style={{ "height": "min(7.5vw, 57.5px)" }}>16:20-17:40</Table.HeaderCell>
                                 {this.renderCell(8, 0)}
                                 {this.renderCell(8, 1)}
                                 {this.renderCell(8, 2)}
                                 {this.renderCell(8, 3)}
                                 {this.renderCell(8, 4)}
-                                <td style={{ "padding": "0", "border": "0", "backgroundColor": "white", "verticalAlign": "baseline" }} colSpan="3" rowSpan="5">
-                                    <Table singleLine unstackable style={{ "width": "100%", "border": "none" }}>
+                                <td className="seperate" colSpan="3" rowSpan="5">
+                                    <Table singleLine unstackable className="seperatetable">
                                         <Table.Body>
-                                            <tr style={{ "height": "2px" }} />
+                                            <tr style={{ "height": "1.5px" }} />
                                             <Table.Row>
                                                 <Table.HeaderCell style={{ "width": "33.3%" }}>16:30-17:20</Table.HeaderCell>
                                                 {this.renderCell(8, 5, { "width": "33.3%" })}

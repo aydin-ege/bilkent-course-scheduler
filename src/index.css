@@ -3,15 +3,28 @@ td{
     align-self: center;
     background-color: lightgray;
     text-align: center;
+    padding: 0.5vw!important;
 }
 
 th{
-    height: 40px;
+    height: min(6vw, 46px);
     text-align: center!important;
 }
 
+.seperate{
+    padding: 0!important;
+    border: 0!important;
+    background-color: white;
+    vertical-align: baseline;
+}
+
+.seperatetable{
+    width: 100%;
+    border: none!important;
+}
+
 .table{
-    font-size: min(1.75vw, 14px);
+    font-size: min(1.5vw, 14px);
     height: 80%;
     margin-left: auto !important;
     margin-right: auto !important;
