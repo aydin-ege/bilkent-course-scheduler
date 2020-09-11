@@ -327,7 +327,7 @@ class Schedule extends React.Component {
                                 {this.renderCell(3, 2)}
                                 {this.renderCell(3, 3)}
                                 {this.renderCell(3, 4)}
-                                <Table.HeaderCell>11:30-12:20</Table.HeaderCell>
+                                <Table.HeaderCell></Table.HeaderCell>
                                 {this.renderCell(3, 5)}
                                 {this.renderCell(3, 6)}
                             </Table.Row>
@@ -339,7 +339,7 @@ class Schedule extends React.Component {
                                 {this.renderCell(4, 2)}
                                 {this.renderCell(4, 3)}
                                 {this.renderCell(4, 4)}
-                                <Table.HeaderCell>12:20-13:30</Table.HeaderCell>
+                                <Table.HeaderCell>12:00-12:50</Table.HeaderCell>
                                 {this.renderCell(4, 5)}
                                 {this.renderCell(4, 6)}
                             </Table.Row>
@@ -351,7 +351,7 @@ class Schedule extends React.Component {
                                 {this.renderCell(5, 2)}
                                 {this.renderCell(5, 3)}
                                 {this.renderCell(5, 4)}
-                                <Table.HeaderCell>13:30-14:20</Table.HeaderCell>
+                                <Table.HeaderCell>13:00-13:50</Table.HeaderCell>
                                 {this.renderCell(5, 5)}
                                 {this.renderCell(5, 6)}
                             </Table.Row>
@@ -363,7 +363,7 @@ class Schedule extends React.Component {
                                 {this.renderCell(6, 2)}
                                 {this.renderCell(6, 3)}
                                 {this.renderCell(6, 4)}
-                                <Table.HeaderCell>14:30-15:20</Table.HeaderCell>
+                                <Table.HeaderCell>14:00-14:50</Table.HeaderCell>
                                 {this.renderCell(6, 5)}
                                 {this.renderCell(6, 6)}
                             </Table.Row>
@@ -379,70 +379,57 @@ class Schedule extends React.Component {
                                 {this.renderCell(7, 5)}
                                 {this.renderCell(7, 6)}
                             </Table.Row>
-                            <tr style={{ "height": "1px" }} />
+                            <tr style={{ "height": "2px" }} />
                             <Table.Row>
-                                <Table.HeaderCell style={{ "height": "min(7.5vw, 57.5px)" }}>16:20-17:40</Table.HeaderCell>
+                                <Table.HeaderCell>16:20-17:30</Table.HeaderCell>
                                 {this.renderCell(8, 0)}
                                 {this.renderCell(8, 1)}
                                 {this.renderCell(8, 2)}
                                 {this.renderCell(8, 3)}
                                 {this.renderCell(8, 4)}
-                                <td className="seperate" colSpan="3" rowSpan="5">
-                                    <Table singleLine unstackable className="seperatetable">
-                                        <Table.Body>
-                                            <tr style={{ "height": "1.5px" }} />
-                                            <Table.Row>
-                                                <Table.HeaderCell style={{ "width": "33.3%" }}>16:30-17:20</Table.HeaderCell>
-                                                {this.renderCell(8, 5, { "width": "33.3%" })}
-                                                {this.renderCell(8, 6, { "width": "33.3%" })}
-                                            </Table.Row>
-                                            <tr style={{ "height": "2px" }} />
-                                            <Table.Row>
-                                                <Table.HeaderCell style={{ "width": "33.3%" }}>17:30-18:20</Table.HeaderCell>
-                                                {this.renderCell(9, 5, { "width": "33.3%" })}
-                                                {this.renderCell(9, 6, { "width": "33.3%" })}
-                                            </Table.Row>
-                                            <tr style={{ "height": "2px" }} />
-                                            <Table.Row>
-                                                <Table.HeaderCell style={{ "width": "33.3%" }}>18:30-19:20</Table.HeaderCell>
-                                                {this.renderCell(10, 5, { "width": "33.3%" })}
-                                                {this.renderCell(10, 6, { "width": "33.3%" })}
-                                            </Table.Row>
-                                        </Table.Body>
-                                    </Table>
-                                </td>
+                                <Table.HeaderCell>16:30-17:20</Table.HeaderCell>
+                                                {this.renderCell(8, 5)}
+                                                {this.renderCell(8, 6)}
                             </Table.Row>
-                            <tr style={{ "height": "1px" }} />
+                            <tr style={{ "height": "2px" }} />
                             <Table.Row>
-                                <Table.HeaderCell>17:40-18:30</Table.HeaderCell>
+                                <Table.HeaderCell>17:30-18:20</Table.HeaderCell>
                                 {this.renderCell(9, 0)}
                                 {this.renderCell(9, 1)}
                                 {this.renderCell(9, 2)}
                                 {this.renderCell(9, 3)}
                                 {this.renderCell(9, 4)}
-
+                                <Table.HeaderCell>17:30-18:20</Table.HeaderCell>
+                                                {this.renderCell(9, 5)}
+                                                {this.renderCell(9, 6)}
                             </Table.Row>
                             <tr style={{ "height": "2px" }} />
                             <Table.Row>
-                                <Table.HeaderCell>18:40-19:30</Table.HeaderCell>
+                                <Table.HeaderCell>18:30-19:20</Table.HeaderCell>
                                 {this.renderCell(10, 0)}
                                 {this.renderCell(10, 1)}
                                 {this.renderCell(10, 2)}
                                 {this.renderCell(10, 3)}
                                 {this.renderCell(10, 4)}
+                                <Table.HeaderCell>18:30-19:20</Table.HeaderCell>
+                                                {this.renderCell(10, 5)}
+                                                {this.renderCell(10, 6)}
                             </Table.Row>
                             <tr style={{ "height": "2px" }} />
                             <Table.Row>
-                                <Table.HeaderCell>19:30-20:10</Table.HeaderCell>
+                                <Table.HeaderCell>19:20-20:00</Table.HeaderCell>
                                 {this.renderCell(11, 0)}
                                 {this.renderCell(11, 1)}
                                 {this.renderCell(11, 2)}
                                 {this.renderCell(11, 3)}
                                 {this.renderCell(11, 4)}
+                                <Table.HeaderCell>19:30-20:20</Table.HeaderCell>
+                                                {this.renderCell(11, 5)}
+                                                {this.renderCell(11, 6)}
                             </Table.Row>
                             <tr style={{ "height": "2px" }} />
                             <Table.Row>
-                                <Table.HeaderCell>20:10-21:00</Table.HeaderCell>
+                                <Table.HeaderCell>20:00-20:50</Table.HeaderCell>
                                 {this.renderCell(12, 0)}
                                 {this.renderCell(12, 1)}
                                 {this.renderCell(12, 2)}
@@ -451,7 +438,7 @@ class Schedule extends React.Component {
                             </Table.Row>
                             <tr style={{ "height": "2px" }} />
                             <Table.Row>
-                                <Table.HeaderCell>21:10-22:00</Table.HeaderCell>
+                                <Table.HeaderCell>21:00-21:50</Table.HeaderCell>
                                 {this.renderCell(13, 0)}
                                 {this.renderCell(13, 1)}
                                 {this.renderCell(13, 2)}
@@ -676,6 +663,7 @@ class Main extends React.Component {
     render() {
         return (
             <div style={{ "position": "relative", "width": "100%" }}>
+                <WelcomeDialog></WelcomeDialog>
                 <MoreOptions all_sections={this.state.all_sections} all_instructors={this.state.all_instructors} refresh={() => this.get_schedules()} />
                 <h1 style={{ "textAlign": "center", "padding": "3% 0 2%", "fontSize": "min(8vw, 2.7em)" }}>Bilkent Scheduler</h1>
                 <div style={{ "position": "relative", "left": "50%", "transform": "translateX(-50%)", "width": "100%", "maxWidth": "1000px" }}>
@@ -700,6 +688,7 @@ class Main extends React.Component {
                     </div>
 
                     <div style={{ "textAlign": "center", "margin": "auto", "position": "relative", "left": "0", "bottom": "0", "width": "100%", "padding": "110px 0 10px" }}>
+                        Try ctrl-f5 if something doesn't work<br />
                         Do you have suggestions or want to contribute?<br />
                         Send a bug report or pull request: <a href="https://github.com/scarypercentage/bilkent-course-scheduler" title="Github">Github</a><br />
                         This site uses everything Google Analytics offers for fun. <br /> Google Analytic uses your cookies and identifiers. <br /> You may choose to <a href="https://tools.google.com/dlpage/gaoptout/" title="optout">opt-out</a>. For more info see the <Suspense fallback={<div>Loading...</div>}><PolicyDialog /></Suspense><br />

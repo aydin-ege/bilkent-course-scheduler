@@ -18,15 +18,12 @@ export default class WelcomeDialog extends React.Component {
                 onClose={() => this.setState({ open: false })}
                 onOpen={() => this.setState({ open: true })}
             >
-                <Modal.Header>Things are changing...</Modal.Header>
+                <Modal.Header>Doesn't work for reasons...</Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
                         <p>
-                            Right now, Bilkent Offerings is constantly updated. <br/><br/>
-                            This is probably because "Weekly course schedules have been completely redesigned for the 2020-21 academic year," 
-                            as they said. Right now things doesn't really work and I'm trying to fix stuff as there are some new things introduced.
-                            I will get things done soon hopefully. <br />
-                            Thank you for your patience.
+                            The course hours are different once again. 
+                            This breaks some part of the code. Go to <a href="https://theuniversityscheduler.com/">theuniversityscheduler.com</a> that seems to be working.
                         </p>
                     </Modal.Description>
                 </Modal.Content>
